@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Générateur QR Code Personnalisé - Club Anakochi<</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <script src="https://unpkg.com/qrcode@1.5.1/build/qrcode.js"></script>
+    <style>
+        /* CSS non fourni dans la question, mais nécessaire pour le style */
+        body { font-family: 'Arial', sans-serif; background: #f0f2f5; display: flex; justify-content: center; align-items: flex-start; min-height: 100vh; padding: 20px; }
+        .container { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; max-width: 1400px; width: 100%; margin-top: 50px; }
+        .panel { background: #fff; padding: 30px; border-radius: 12px; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08); }
+        .header { text-align: center; margin-bottom: 25px; }
+        .logo { font-size: 32px; color: #1a1a2e; margin-bottom: 5px; }
+        .title { font-size: 24px; color: #1a1a2e; margin: 0 0 5px 0; }
+        .subtitle { font-size: 14px; color: #666; margin: 0; }
+        .form-section { display: flex; flex-direction: column; gap: 20px; }
+        .form-group { display: flex; flex-direction: column; }
+        .form-label { font-weight: bold; margin-bottom: 8px; color: #333; font-size: 15px; }
+        .form-input { padding: 12px; border: 1px solid #ddd; border-radius: 8px; font-size: 16px; transition: border-color 0.3s; }
+        .form-input:focus { border-color: #1a1a2e; outline: none; }
+
+        /* Style Options */
+        .style-options { display: flex; gap: 15px; }
+        .style-option input[type="radio"] { display: none; }
+        .style-option-label { display: flex; flex-direction: column; align-items: center; padding: 10px; border: 2px solid #ddd; border-radius: 8px; cursor: pointer; transition: all 0.3s; }
+        .style-option input[type="radio"]:checked + .style-option-label { border-color: #1a1a2e; box-shadow: 0 0 8px rgba(26, 26, 46, 0.2); }
+        .style-preview { width: 40px; height: 40px; border-radius: 6px; display: flex; justify-content: center; align-items: center; margin-bottom: 5px; font-size: 20px; }
+        
+        /* File Input Custom */
+        .file-input-wrapper { position: relative; overflow: hidden; display: inline-block; width: 100%; }
+        .file-input { position: absolute; left: 0; top: 0; opacity: 0; cursor: pointer; height: 100%; width: 100%; }
+        .file-input-label { background: #f0f0f0; color: #333; padding: 12px 15px; border-radius: 8px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background 0.3s; border: 1px solid #ddd; }
+        .file-input-label:hover { background: #e0e0e0; }
+        
+        /* Color Inputs */
+        .color-inputs { display: flex; gap: 20px; }
+        .color-input-group { display: flex; align-items: center; gap: 10px; }
+        .color-input { width: 40px; height: 40px; border: none; padding: 0; border-radius: 50%; cursor: pointer; background: none; }
+        
+        /* Génération & Téléchargement */
+        .generate-btn { background: #1a1a2e; color: white; padding: 15px; border: none; border-radius: 8px; font-size: 18px; cursor: pointer; transition: background 0.3s, transform 0.1s; margin-top: 10px; }
+        .generate-btn:hover:not(:disabled) { background: #0f0f1d; }
+        .generate-btn:disabled { background: #ccc; cursor: not-allowed; }
+        .download-section { display: flex; gap: 15px; margin-top: 25px; }
+        .download-btn { flex: 1; padding: 12px; border: 2px solid #1a1a2e; background: white; color: #1a1a2e; border-radius: 8px; font-size: 16px; cursor: pointer; transition: all 0.3s; }
+        .download-btn:hover:not(:disabled) { background: #1a1a2e; color: white; }
+        .download-btn:disabled { border-color: #ccc; color: #ccc; background: #f9f9f9; cursor: not-allowed; }
+        
+        /* Prévisualisation */
+        .preview-panel { display: flex; flex-direction: column; align-items: center; }
+        .qr-container { background: #f9f9f9; border-radius: 10px; padding: 20px; display: flex; justify-content: center; align-items: center; min-height: 340px; width: 100%; position: relative; box-sizing: border-box; }
+        #qrcode { display: flex; justify-content: center; align-items: center; }
+        #qrcode canvas { max-width: 100%; height: auto; border: 1px solid #eee; border-radius: 4px; }
+        .qr-placeholder { text-align: center; color: #bbb; }
+        .qr-placeholder i { font-size: 40px; margin-bottom: 10px; }
+        
+        /* Loading */
+        .loading { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(255, 255, 255, 0.9); border-radius: 10px; display: flex; flex-direction: column; justify-content: center; align-items: center; color: #1a1a2e; font-weight: bold; opacity: 0; visibility: hidden; transition: opacity 0.3s; }
+        .loading.show { opacity: 1; visibility: visible; }
+        .spinner { border: 4px solid #f3f3f3; border-top: 4px solid #1a1a2e; border-radius: 50%; width: 40px; height: 40px; animation: spin 1s linear infinite; margin-bottom: 10px; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+        /* Info Card */
+        .info-card { background: #f0f8ff; border-left: 5px solid #007bff; padding: 15px; border-radius: 8px; margin-top: 25px; font-size: 14px; color: #333; }
+        .info-card h4 { margin-top: 0; color: #007bff; }
+        
+        /* Media Queries pour le Responsive */
+        @media (max-width: 1200px) {
+            .container { grid-template-columns: 1fr; }
+            .preview-panel { margin-top: 20px; }
+        }
+        @media (max-width: 600px) {
+            .panel { padding: 20px; }
+            .color-inputs { flex-direction: column; }
+            .download-section { flex-direction: column; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="panel">
+            <div class="header">
+                <div class="logo">
+                    <i class="fas fa-qrcode"></i>
+                </div>
+                <h1 class="title">QR Generator Pro</h1>
+                <p class="subtitle">Créez des QR codes uniques avec photo intégrée</p>
+            </div>
+
+            <div class="form-section">
+                <div class="form-group">
+                    <label class="form-label">
+                        <i class="fas fa-link"></i> Contenu du QR Code
+                    </label>
+                    <input type="text" id="qrContent" class="form-input" 
+                           placeholder="URL, texte, numéro de téléphone..." 
+                           value="https://club-anakochi.com">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">
+                        <i class="fas fa-image"></i> Photo à intégrer
+                    </label>
+                    <div class="file-input-wrapper">
+                        <input type="file" id="logoFile" class="file-input" accept="image/*">
+                        <label for="logoFile" class="file-input-label">
+                            <i class="fas fa-cloud-upload-alt"></i>
+                            <span id="fileLabel">Choisir une image</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">
+                        <i class="fas fa-palette"></i> Style du QR Code
+                    </label>
+                    <div class="style-options">
+                        <div class="style-option">
+                            <input type="radio" id="style1" name="qrStyle" value="square" checked>
+                            <label for="style1" class="style-option-label">
+                                <div class="style-preview" style="background: #000;">
+                                    <i class="fas fa-square" style="color: white;"></i>
+                                </div>
+                                <span>Carré</span>
+                            </label>
+                        </div>
+                        <div class="style-option">
+                            <input type="radio" id="style2" name="qrStyle" value="rounded">
+                            <label for="style2" class="style-option-label">
+                                <div class="style-preview" style="background: linear-gradient(45deg, #ff6b35, #f7931e);">
+                                    <i class="fas fa-circle" style="color: white;"></i>
+                                </div>
+                                <span>Arrondi</span>
+                            </label>
+                        </div>
+                        <div class="style-option">
+                            <input type="radio" id="style3" name="qrStyle" value="dots">
+                            <label for="style3" class="style-option-label">
+                                <div class="style-preview" style="background: linear-gradient(45deg, #667eea, #764ba2);">
+                                    <i class="fas fa-braille" style="color: white;"></i>
+                                </div>
+                                <span>Points</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">
+                        <i class="fas fa-paint-brush"></i> Couleurs
+                    </label>
+                    <div class="color-inputs">
+                        <div class="color-input-group">
+                            <label>Avant-plan:</label>
+                            <input type="color" id="foregroundColor" class="color-input" value="#1a1a2e">
+                        </div>
+                        <div class="color-input-group">
+                            <label>Arrière-plan:</label>
+                            <input type="color" id="backgroundColor" class="color-input" value="#ffffff">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">
+                        <i class="fas fa-expand-arrows-alt"></i> Taille du QR Code
+                    </label>
+                    <select id="qrSize" class="form-input">
+                        <option value="200">Petit (200x200)</option>
+                        <option value="300" selected>Moyen (300x300)</option>
+                        <option value="400">Grand (400x400)</option>
+                        <option value="500">Très Grand (500x500)</option>
+                    </select>
+                </div>
+
+                <button id="generateBtn" class="generate-btn">
+                    <i class="fas fa-magic"></i>
+                    Générer QR Code
+                </button>
+            </div>
+        </div>
+
+        <div class="panel preview-panel">
+            <div class="header">
+                <h2 class="title">Prévisualisation</h2>
+                <p class="subtitle">Votre QR code personnalisé apparaîtra ici</p>
+            </div>
+
+            <div class="qr-container">
+                <div id="qrcode">
+                    <div class="qr-placeholder">
+                        <i class="fas fa-qrcode"></i>
+                        <p>Votre QR code apparaîtra ici</p>
+                    </div>
+                </div>
+                <div class="loading">
+                    <div class="spinner"></div>
+                    Génération en cours...
+                </div>
+            </div>
+
+            <div class="download-section">
+                <button id="downloadPng" class="download-btn" disabled>
+                    <i class="fas fa-download"></i>
+                    Télécharger PNG
+                </button>
+                <button id="downloadSvg" class="download-btn" disabled>
+                    <i class="fas fa-vector-square"></i>
+                    Télécharger SVG
+                </button>
+            </div>
+
+            <div class="info-card">
+                <h4><i class="fas fa-info-circle"></i> Conseils d'utilisation</h4>
+                <p>
+                    • Utilisez des images avec un fond transparent (PNG) pour de meilleurs résultats<br>
+                    • La photo sera automatiquement redimensionnée et centrée<br>
+                    • Testez toujours votre QR code avant utilisation<br>
+                    • Pour l'impression, utilisez une taille d'au moins 300x300 pixels
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Le code JavaScript que vous avez fourni est conservé ici et corrigé.
+        let currentQRCode = null;
+        let logoImage = null;
+
+        // Éléments du DOM
+        const qrContent = document.getElementById('qrContent');
+        const logoFile = document.getElementById('logoFile');
+        const fileLabel = document.getElementById('fileLabel');
+        const generateBtn = document.getElementById('generateBtn');
+        const downloadPngBtn = document.getElementById('downloadPng');
+        const downloadSvgBtn = document.getElementById('downloadSvg');
+        const qrcodeDiv = document.getElementById('qrcode');
+        const loading = document.querySelector('.loading');
+
+        // Gestion du fichier image
+        logoFile.addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                fileLabel.textContent = file.name;
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    logoImage = new Image();
+                    logoImage.onload = function() {
+                        console.log('Image chargée:', logoImage.width + 'x' + logoImage.height);
+                    };
+                    logoImage.src = e.target.result;
+                };
+                reader.readAsDataURL(file);
+            } else {
+                fileLabel.textContent = 'Choisir une image';
+                logoImage = null;
+            }
+        });
+
+        // Génération du QR Code
+        generateBtn.addEventListener('click', generateQRCode);
+
+        function generateQRCode() {
+            const content = qrContent.value.trim();
+            if (!content) {
+                // S'il n'y a pas de contenu, on laisse le placeholder et on désactive le téléchargement
+                qrcodeDiv.innerHTML = '<div class="qr-placeholder"><i class="fas fa-qrcode"></i><p>Votre QR code apparaîtra ici</p></div>';
+                downloadPngBtn.disabled = true;
+                downloadSvgBtn.disabled = true;
+                return;
+            }
+
+            // Afficher le loading
+            loading.classList.add('show');
+            generateBtn.disabled = true;
+            
+            // Vider le conteneur
+            qrcodeDiv.innerHTML = '';
+
+            // Options du QR Code
+            const size = parseInt(document.getElementById('qrSize').value);
+            const foregroundColor = document.getElementById('foregroundColor').value;
+            const backgroundColor = document.getElementById('backgroundColor').value;
+            const style = document.querySelector('input[name="qrStyle"]:checked').value;
+
+            // Créer le canvas
+            const canvas = document.createElement('canvas');
+            canvas.width = size;
+            canvas.height = size;
+            const ctx = canvas.getContext('2d');
+
+            // Générer le QR code de base avec la bibliothèque QRCode.js
+            QRCode.toCanvas(canvas, content, {
+                width: size,
+                height: size,
+                margin: 2,
+                color: {
+                    dark: foregroundColor,
+                    light: backgroundColor
+                },
+                errorCorrectionLevel: 'H'
+            })
+            .then(() => {
+                // Sauvegarder l'image originale avant les modifications
+                const originalImageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+
+                // Appliquer le style personnalisé
+                if (style !== 'square') {
+                    applyCustomStyle(canvas, ctx, style, originalImageData);
+                }
+
+                // Ajouter le logo si présent
+                if (logoImage && logoImage.complete) {
+                    addLogoToQR(canvas, ctx, logoImage);
+                }
+
+                // Afficher le résultat
+                qrcodeDiv.appendChild(canvas);
+                currentQRCode = canvas;
+
+                // Activer les boutons de téléchargement
+                downloadPngBtn.disabled = false;
+                downloadSvgBtn.disabled = false;
+
+                // Masquer le loading
+                loading.classList.remove('show');
+                generateBtn.disabled = false;
+            })
+            .catch((error) => {
+                console.error('Erreur lors de la génération du QR code:', error);
+                qrcodeDiv.innerHTML = '<div class="qr-placeholder"><i class="fas fa-exclamation-triangle"></i><p>Erreur lors de la génération</p></div>';
+                loading.classList.remove('show');
+                generateBtn.disabled = false;
+            });
+        }
+
+        function applyCustomStyle(canvas, ctx, style, originalImageData) {
+            // NOTE IMPORTANTE: Cette logique de style est basée sur l'analyse pixel par pixel
+            // du canvas initial généré par qrcode.js. L'efficacité peut varier.
+
+            const data = originalImageData.data;
+            // Taille adaptative des modules, rendue plus petite pour plus de détails
+            // 2 pixels est souvent la taille minimale par module sur un grand QR.
+            const moduleSize = Math.max(2, Math.floor(canvas.width / 120)); 
+
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+                
+            // Redessiner le fond
+            ctx.fillStyle = document.getElementById('backgroundColor').value;
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            ctx.fillStyle = document.getElementById('foregroundColor').value;
+
+            // Boucle en utilisant la taille des modules, pas pixel par pixel
+            for (let y = 0; y < canvas.height; y += moduleSize) {
+                for (let x = 0; x < canvas.width; x += moduleSize) {
+                    // Vérifier la couleur du coin supérieur gauche du module dans l'image originale.
+                    // Pour un QR code en noir et blanc, data[index] < 128 signifie "sombre".
+                    const index = (y * canvas.width + x) * 4; 
+
+                    // Assurez-vous que l'index est valide
+                    if (index < data.length && data[index] < 128) { 
+                        
+                        // NOTE: Cette vérification n'est pas parfaite pour les motifs d'œil,
+                        // mais elle est suffisante pour les modules internes.
+                        
+                        if (style === 'rounded') {
+                            // Style coins arrondis
+                            ctx.beginPath();
+                            roundRect(ctx, x, y, moduleSize, moduleSize, moduleSize / 4);
+                            ctx.fill();
+                        } else if (style === 'dots') {
+                            // Style points circulaires
+                            ctx.beginPath();
+                            // Rayon = un peu moins de la moitié du module pour laisser un espace
+                            ctx.arc(x + moduleSize/2, y + moduleSize/2, moduleSize/2 * 0.45, 0, 2 * Math.PI); 
+                            ctx.fill();
+                        }
+                    }
+                }
+            }
+        }
+
+        // Fonction helper pour dessiner des rectangles arrondis
+        function roundRect(ctx, x, y, width, height, radius) {
+            if (width < 2 * radius) radius = width / 2;
+            if (height < 2 * radius) radius = height / 2;
+            
+            ctx.beginPath();
+            ctx.moveTo(x + radius, y);
+            ctx.arcTo(x + width, y, x + width, y + height, radius);
+            ctx.arcTo(x + width, y + height, x, y + height, radius);
+            ctx.arcTo(x, y + height, x, y, radius);
+            ctx.arcTo(x, y, x + width, y, radius);
+            ctx.closePath();
+        }
+
+        function addLogoToQR(canvas, ctx, logo) {
+            const logoSize = Math.min(canvas.width * 0.2, canvas.height * 0.2);
+            const logoX = (canvas.width - logoSize) / 2;
+            const logoY = (canvas.height - logoSize) / 2;
+
+            // Sauvegarder le contexte
+            ctx.save();
+
+            // 1. Créer un fond blanc circulaire pour le logo (avec un petit padding)
+            ctx.fillStyle = '#ffffff';
+            ctx.beginPath();
+            // Le +5 assure que le fond blanc dépasse un peu le logo
+            ctx.arc(logoX + logoSize/2, logoY + logoSize/2, logoSize/2 + 5, 0, 2 * Math.PI); 
+            ctx.fill();
+
+            // 2. Créer un masque circulaire pour le logo (pour qu'il soit rond)
+            ctx.beginPath();
+            ctx.arc(logoX + logoSize/2, logoY + logoSize/2, logoSize/2, 0, 2 * Math.PI);
+            ctx.clip(); // Tout ce qui est dessiné après sera coupé à l'intérieur de ce cercle
+
+            // 3. Dessiner le logo
+            ctx.drawImage(logo, logoX, logoY, logoSize, logoSize);
+            
+            // 4. Restaurer le contexte pour enlever le masque de clip
+            ctx.restore();
+
+            // 5. Ajouter une bordure dorée autour du logo (en dehors du clip)
+            ctx.strokeStyle = '#ffd700';
+            ctx.lineWidth = 3;
+            ctx.beginPath();
+            // Le +1.5 assure que la bordure est centrée sur le cercle extérieur
+            ctx.arc(logoX + logoSize/2, logoY + logoSize/2, logoSize/2 + 3, 0, 2 * Math.PI); 
+            ctx.stroke();
+        }
+
+        // Téléchargement PNG
+        downloadPngBtn.addEventListener('click', function() {
+            if (!currentQRCode) return;
+            
+            const link = document.createElement('a');
+            link.download = 'qr-code-anakochi.png';
+            link.href = currentQRCode.toDataURL('image/png');
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        });
+
+        // Téléchargement SVG
+        downloadSvgBtn.addEventListener('click', function() {
+            if (!currentQRCode) return;
+            
+            // NOTE: La conversion Canvas->SVG est simplifiée et ne prend pas en compte
+            // les styles 'rounded' ou 'dots', ni le logo. Il génère un SVG "carré" basique.
+            const svgData = canvasToSVG(currentQRCode);
+            const blob = new Blob([svgData], {type: 'image/svg+xml'});
+            const url = URL.createObjectURL(blob);
+            
+            const link = document.createElement('a');
+            link.download = 'qr-code-anakochi.svg';
+            link.href = url;
+            link.click();
+            
+            URL.revokeObjectURL(url);
+        });
+
+        function canvasToSVG(canvas) {
+            // Cette fonction utilise une simplification pour convertir les modules du QR code en rectangles SVG.
+            // Elle ne gère PAS les styles 'rounded' ou 'dots' ni le logo.
+            const size = canvas.width;
+            const foregroundColor = document.getElementById('foregroundColor').value;
+            const backgroundColor = document.getElementById('backgroundColor').value;
+            
+            let svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${size} ${size}" width="${size}" height="${size}">`;
+            svg += `<rect width="100%" height="100%" fill="${backgroundColor}"/>`;
+            
+            // La méthode la plus simple est de regénérer la structure de base du QR code pour le SVG
+            // Malheureusement, sans une librairie spécifique, on ne peut que simuler la version pure.
+            // Pour l'exemple, on va extraire les pixels du canvas pour simuler le dessin :
+
+            const ctx = canvas.getContext('2d');
+            const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+            const data = imageData.data;
+            const step = Math.max(2, Math.floor(size / 100)); // Simuler la taille du module pour l'export
+
+            for (let y = 0; y < canvas.height; y += step) {
+                for (let x = 0; x < canvas.width; x += step) {
+                    const index = (y * canvas.width + x) * 4;
+                    // Si le pixel n'est pas blanc (moins de 200 sur le canal rouge, vert et bleu)
+                    if (data[index] < 200 && data[index+1] < 200 && data[index+2] < 200) { 
+                        // On ignore la couleur exacte pour simplifier au foregroundColor
+                        svg += `<rect x="${x}" y="${y}" width="${step}" height="${step}" fill="${foregroundColor}"/>`;
+                    }
+                }
+            }
+
+            // Un export SVG complet nécessiterait une librairie dédiée ou une logique de dessin vectoriel.
+            
+            svg += '</svg>';
+            return svg;
+        }
+
+
+        // Régénération automatique lors des changements
+        qrContent.addEventListener('input', function() {
+            if (this.value.trim()) {
+                clearTimeout(this.generateTimeout);
+                this.generateTimeout = setTimeout(generateQRCode, 1000);
+            }
+        });
+
+        // Régénération lors du changement de couleurs, taille et style
+        const controlsToRegenerate = [
+            'foregroundColor', 'backgroundColor', 'qrSize',
+            ...document.querySelectorAll('input[name="qrStyle"]')
+        ];
+
+        controlsToRegenerate.forEach(control => {
+            control.addEventListener('change', function() {
+                if (qrContent.value.trim()) {
+                    // Petit délai pour la couleur pour éviter de bloquer si l'utilisateur glisse
+                    if (control.type === 'color') {
+                        clearTimeout(control.generateTimeout);
+                        control.generateTimeout = setTimeout(generateQRCode, 300);
+                    } else {
+                        generateQRCode();
+                    }
+                }
+            });
+        });
+
+        // Génération automatique au chargement avec un délai
+        window.addEventListener('load', function() {
+            setTimeout(() => {
+                if (qrContent.value.trim()) {
+                    generateQRCode();
+                }
+            }, 500);
+        });
+        
+        // Fonction de redimensionnement adaptatif
+        function adaptiveResize() {
+            const container = document.querySelector('.container');
+            if (window.innerWidth < 1200) {
+                container.style.gridTemplateColumns = '1fr';
+            } else {
+                container.style.gridTemplateColumns = '1fr 1fr';
+            }
+        }
+
+        window.addEventListener('resize', adaptiveResize);
+        adaptiveResize(); // Appel initial
+    </script>
+</body>
+</html>

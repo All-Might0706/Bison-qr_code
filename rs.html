@@ -1,0 +1,956 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Fiche de Renseignement - Club Anakochi</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        /* ====== VARIABLES CSS ====== */
+        :root {
+            --primary-gradient: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            --accent-gradient: linear-gradient(135deg, #ff6b35 0%, #f7931e 100%);
+            --secondary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --primary-color: #1a1a2e;
+            --accent-color: #ff6b35;
+            --gold-gradient: linear-gradient(135deg, #ffd700 0%, #ffb347 100%);
+            --background-gradient: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            --card-background: rgba(255, 255, 255, 0.98);
+            --card-hover: rgba(255, 255, 255, 1);
+            --text-color: #1a1a2e;
+            --text-light: #6c757d;
+            --border-color: #dee2e6;
+            --success-gradient: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+            --error-gradient: linear-gradient(135deg, #dc3545 0%, #fd7e14 100%);
+            --warning-gradient: linear-gradient(135deg, #ffc107 0%, #fd7e14 100%);
+            --shadow-light: 0 4px 15px rgba(0, 0, 0, 0.08);
+            --shadow-medium: 0 8px 25px rgba(0, 0, 0, 0.15);
+            --shadow-heavy: 0 15px 35px rgba(0, 0, 0, 0.2);
+            --border-radius: 20px;
+            --border-radius-small: 10px;
+            --font-family: 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+            --transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-family);
+            background: var(--background-gradient);
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+        }
+
+        .main-container {
+            background: var(--card-background);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-heavy);
+            max-width: 1400px;
+            width: 100%;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .main-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 6px;
+            background: var(--accent-gradient);
+            z-index: 1;
+        }
+
+        /* EN-TÊTE AVEC LOGO */
+        .header-banner {
+            background: var(--primary-gradient);
+            color: white;
+            padding: 30px 40px;
+            display: flex;
+            align-items: center;
+            gap: 25px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header-banner::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M 10 0 L 0 0 0 10" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="0.5"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>');
+            opacity: 0.3;
+        }
+
+        .logo-container {
+            flex: 0 0 80px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .logo {
+            width: 80px;
+            height: 80px;
+            background: var(--gold-gradient);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--primary-color);
+            box-shadow: var(--shadow-medium);
+            border: 3px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .header-text {
+            flex: 1;
+            position: relative;
+            z-index: 2;
+        }
+
+        .school-name {
+            font-size: 2.2rem;
+            font-weight: 800;
+            margin: 0 0 8px 0;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            background: var(--gold-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .school-subtitle {
+            font-size: 1.1rem;
+            font-weight: 400;
+            margin: 0;
+            opacity: 0.9;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+        }
+
+        .document-title {
+            background: var(--accent-gradient);
+            color: white;
+            text-align: center;
+            padding: 20px;
+            font-size: 1.8rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            box-shadow: inset 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .content-container {
+            padding: 40px;
+        }
+
+        .member-header {
+            display: flex;
+            gap: 40px;
+            margin-bottom: 40px;
+            align-items: center;
+            flex-wrap: wrap;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.8) 0%, rgba(248, 249, 250, 0.9) 100%);
+            padding: 30px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-light);
+        }
+
+        .photo-container {
+            flex: 0 0 220px;
+            text-align: center;
+            position: relative;
+        }
+
+        .photo-frame {
+            width: 220px;
+            height: 220px;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 6px solid transparent;
+            background: var(--accent-gradient);
+            padding: 6px;
+            box-shadow: var(--shadow-heavy);
+            transition: var(--transition);
+            position: relative;
+        }
+
+        .photo-frame::after {
+            content: '';
+            position: absolute;
+            top: -3px;
+            left: -3px;
+            right: -3px;
+            bottom: -3px;
+            background: var(--gold-gradient);
+            border-radius: 50%;
+            z-index: -1;
+            opacity: 0.3;
+        }
+
+        .photo-frame img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
+            background: white;
+        }
+
+        .member-info {
+            flex: 1;
+            min-width: 320px;
+        }
+
+        .member-name {
+            font-size: 3.2rem;
+            font-weight: 800;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 15px;
+            line-height: 1.1;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .status-badges {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .badge {
+            padding: 12px 20px;
+            border-radius: 25px;
+            font-weight: 700;
+            font-size: 0.95rem;
+            color: white;
+            box-shadow: var(--shadow-medium);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .badge::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .badge:hover::before {
+            left: 100%;
+        }
+
+        .badge-success { background: var(--success-gradient); }
+        .badge-warning { background: var(--warning-gradient); }
+        .badge-info { background: var(--secondary-gradient); }
+        .badge-primary { background: var(--accent-gradient); }
+
+        .sections-grid {
+            display: grid;
+            gap: 30px;
+            grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+        }
+
+        .info-section {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, rgba(248, 249, 250, 0.95) 100%);
+            backdrop-filter: blur(15px);
+            border-radius: var(--border-radius);
+            padding: 30px;
+            box-shadow: var(--shadow-medium);
+            position: relative;
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            transition: var(--transition);
+        }
+
+        .info-section:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-heavy);
+        }
+
+        .info-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--accent-gradient);
+            border-radius: var(--border-radius) var(--border-radius) 0 0;
+        }
+
+        .section-title {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--text-color);
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 3px solid var(--border-color);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .section-title i {
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--accent-gradient);
+            color: white;
+            border-radius: 50%;
+            font-size: 1rem;
+            box-shadow: var(--shadow-light);
+        }
+
+        .info-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .info-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+            padding: 15px 0;
+            border-bottom: 1px solid rgba(222, 226, 230, 0.5);
+            transition: var(--transition);
+        }
+
+        .info-item:hover {
+            background: rgba(255, 107, 53, 0.05);
+            margin: 0 -15px;
+            padding: 15px;
+            border-radius: var(--border-radius-small);
+        }
+
+        .info-item:last-child { border-bottom: none; }
+
+        .info-icon {
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--accent-color);
+            font-size: 1rem;
+            margin-top: 3px;
+        }
+
+        .info-label { 
+            font-weight: 700; 
+            color: var(--text-color); 
+            min-width: 160px; 
+            text-transform: uppercase;
+            font-size: 0.9rem;
+            letter-spacing: 0.5px;
+        }
+        
+        .info-value { 
+            color: var(--text-light); 
+            flex: 1; 
+            word-wrap: break-word; 
+            font-size: 1rem;
+            font-weight: 500;
+        }
+        
+        .info-value.empty { 
+            font-style: italic; 
+            opacity: 0.7; 
+        }
+        
+        .status-yes { 
+            background: var(--success-gradient); 
+            color: white; 
+            padding: 6px 15px; 
+            border-radius: 20px; 
+            font-size: 0.85rem; 
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .status-no { 
+            background: var(--error-gradient); 
+            color: white; 
+            padding: 6px 15px; 
+            border-radius: 20px; 
+            font-size: 0.85rem; 
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .back-link { 
+            display: inline-flex; 
+            align-items: center; 
+            gap: 12px; 
+            margin-top: 40px; 
+            padding: 16px 32px; 
+            background: var(--primary-gradient); 
+            color: white; 
+            text-decoration: none; 
+            border-radius: 50px; 
+            font-weight: 700; 
+            font-size: 1.1rem; 
+            box-shadow: var(--shadow-heavy);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: var(--transition);
+        }
+
+        .back-link:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
+        }
+
+        /* Responsive Design - Mobile First */
+        
+        /* Petits téléphones - 320px à 480px */
+        @media (max-width: 480px) {
+            body {
+                padding: 10px;
+            }
+            
+            .main-container {
+                border-radius: 15px;
+            }
+            
+            .header-banner {
+                padding: 15px;
+                flex-direction: column;
+                text-align: center;
+                gap: 15px;
+            }
+            
+            .logo {
+                width: 60px;
+                height: 60px;
+                font-size: 1.5rem;
+            }
+            
+            .school-name {
+                font-size: 1.4rem;
+                line-height: 1.2;
+            }
+            
+            .school-subtitle {
+                font-size: 0.85rem;
+                line-height: 1.3;
+            }
+            
+            .document-title {
+                padding: 15px 10px;
+                font-size: 1.2rem;
+                letter-spacing: 1px;
+            }
+            
+            .content-container {
+                padding: 20px 15px;
+            }
+            
+            .member-header {
+                flex-direction: column;
+                text-align: center;
+                padding: 20px 15px;
+                gap: 20px;
+            }
+            
+            .photo-container {
+                flex: none;
+            }
+            
+            .photo-frame {
+                width: 150px;
+                height: 150px;
+                border-width: 4px;
+            }
+            
+            .member-info {
+                min-width: auto;
+            }
+            
+            .member-name {
+                font-size: 2rem;
+                margin-bottom: 12px;
+            }
+            
+            .status-badges {
+                justify-content: center;
+                gap: 8px;
+            }
+            
+            .badge {
+                padding: 8px 12px;
+                font-size: 0.8rem;
+                letter-spacing: 0.5px;
+            }
+            
+            .sections-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            .info-section {
+                padding: 20px 15px;
+                border-radius: 15px;
+            }
+            
+            .section-title {
+                font-size: 1.2rem;
+                gap: 10px;
+                margin-bottom: 20px;
+                padding-bottom: 10px;
+            }
+            
+            .section-title i {
+                width: 28px;
+                height: 28px;
+                font-size: 0.9rem;
+            }
+            
+            .info-item {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 8px;
+                padding: 12px 0;
+            }
+            
+            .info-item:hover {
+                margin: 0 -10px;
+                padding: 12px 10px;
+            }
+            
+            .info-label {
+                min-width: auto;
+                font-size: 0.85rem;
+                margin-bottom: 2px;
+            }
+            
+            .info-value {
+                font-size: 0.95rem;
+                margin-left: 0;
+            }
+            
+            .back-link {
+                padding: 12px 20px;
+                font-size: 0.95rem;
+                margin-top: 30px;
+                gap: 8px;
+            }
+        }
+        
+        /* Téléphones moyens - 481px à 640px */
+        @media (min-width: 481px) and (max-width: 640px) {
+            body {
+                padding: 15px;
+            }
+            
+            .header-banner {
+                padding: 20px;
+                flex-direction: column;
+                text-align: center;
+                gap: 20px;
+            }
+            
+            .logo {
+                width: 70px;
+                height: 70px;
+                font-size: 1.8rem;
+            }
+            
+            .school-name {
+                font-size: 1.8rem;
+            }
+            
+            .school-subtitle {
+                font-size: 0.95rem;
+            }
+            
+            .document-title {
+                padding: 18px;
+                font-size: 1.4rem;
+            }
+            
+            .content-container {
+                padding: 30px 20px;
+            }
+            
+            .member-header {
+                flex-direction: column;
+                text-align: center;
+                gap: 25px;
+            }
+            
+            .photo-frame {
+                width: 180px;
+                height: 180px;
+            }
+            
+            .member-name {
+                font-size: 2.4rem;
+            }
+            
+            .sections-grid {
+                grid-template-columns: 1fr;
+                gap: 25px;
+            }
+            
+            .info-section {
+                padding: 25px 20px;
+            }
+            
+            .info-item {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+            
+            .info-label {
+                min-width: auto;
+                margin-bottom: 3px;
+            }
+        }
+        
+        /* Tablettes portrait - 641px à 768px */
+        @media (min-width: 641px) and (max-width: 768px) {
+            .header-banner {
+                padding: 25px;
+                gap: 25px;
+            }
+            
+            .school-name {
+                font-size: 2rem;
+            }
+            
+            .content-container {
+                padding: 35px 25px;
+            }
+            
+            .member-header {
+                flex-direction: column;
+                text-align: center;
+                gap: 30px;
+            }
+            
+            .photo-frame {
+                width: 200px;
+                height: 200px;
+            }
+            
+            .member-name {
+                font-size: 2.8rem;
+            }
+            
+            .sections-grid {
+                grid-template-columns: 1fr;
+                gap: 25px;
+            }
+            
+            .info-item {
+                flex-direction: row;
+                align-items: flex-start;
+            }
+            
+            .info-label {
+                min-width: 140px;
+            }
+        }
+        
+        /* Tablettes paysage et petits écrans - 769px à 1024px */
+        @media (min-width: 769px) and (max-width: 1024px) {
+            .content-container {
+                padding: 35px;
+            }
+            
+            .sections-grid {
+                grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+                gap: 25px;
+            }
+            
+            .member-header {
+                gap: 35px;
+            }
+        }
+        
+        /* Écrans moyens - 1025px à 1200px */
+        @media (min-width: 1025px) and (max-width: 1200px) {
+            .main-container {
+                max-width: 1100px;
+            }
+            
+            .sections-grid {
+                grid-template-columns: repeat(auto-fit, minmax(420px, 1fr));
+            }
+        }
+        
+        /* Orientation paysage pour téléphones */
+        @media (max-height: 500px) and (orientation: landscape) {
+            .header-banner {
+                padding: 15px 20px;
+                flex-direction: row;
+                text-align: left;
+            }
+            
+            .logo {
+                width: 50px;
+                height: 50px;
+                font-size: 1.3rem;
+            }
+            
+            .school-name {
+                font-size: 1.3rem;
+            }
+            
+            .school-subtitle {
+                font-size: 0.8rem;
+            }
+            
+            .document-title {
+                padding: 12px;
+                font-size: 1.1rem;
+            }
+            
+            .member-header {
+                flex-direction: row;
+                text-align: left;
+                gap: 20px;
+            }
+            
+            .photo-frame {
+                width: 120px;
+                height: 120px;
+            }
+            
+            .member-name {
+                font-size: 1.8rem;
+            }
+            
+            .sections-grid {
+                grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+                gap: 15px;
+            }
+            
+            .info-section {
+                padding: 15px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="main-container">
+        <!-- En-tête avec logo et nom de l'école -->
+        <div class="header-banner">
+            <div class="logo-container">
+                <div class="logo">
+                    <img src="logo anakochi.png" alt=""   width=80 height=80 >
+                </div>
+            </div>
+            <div class="header-text">
+                <h1 class="school-name">CLUB ANAKOCHI</h1>
+                <p class="school-subtitle">École de Jiu-Jitsu, Self-Défense et Arts Martiaux Associés • École Bison Ouragan</p>
+            </div>
+        </div>
+
+        <!-- Titre du document -->
+        <div class="document-title">
+            <i class="fas fa-file-alt"></i> Fiche de Renseignement Membre
+        </div>
+
+        <div class="content-container">
+            <!-- En-tête membre -->
+            <div class="member-header">
+                <div class="photo-container">
+                    <div class="photo-frame">
+                        <img src="logo anakochi.png" alt="Photo membre" />
+                    </div>
+                </div>
+                <div class="member-info">
+                    <h2 class="member-name">ABDOU Roy</h2>
+                    <div class="status-badges">
+                        <span class="badge badge-success"><i class="fas fa-check-circle"></i> Actif</span>
+                        <span class="badge badge-primary"><i class="fas fa-layer-group"></i> Grade</span>
+                        <span class="badge badge-info"><i class="fas fa-calendar"></i> 2025</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="sections-grid">
+                <!-- Informations personnelles -->
+                <div class="info-section">
+                    <div class="section-title"><i class="fas fa-user"></i> Informations Personnelles</div>
+                    <ul class="info-list">
+                        <li class="info-item">
+                            <div class="info-icon"><i class="fas fa-id-badge"></i></div>
+                            <div class="info-label">ID Membre</div>
+                            <div class="info-value">M1234</div>
+                        </li>
+                        <li class="info-item">
+                            <div class="info-icon"><i class="fas fa-envelope"></i></div>
+                            <div class="info-label">Email</div>
+                            <div class="info-value">john.doe@example.com</div>
+                        </li>
+                        <li class="info-item">
+                            <div class="info-icon"><i class="fas fa-phone"></i></div>
+                            <div class="info-label">Téléphone</div>
+                            <div class="info-value">+243 812 345 678</div>
+                        </li>
+                        <li class="info-item">
+                            <div class="info-icon"><i class="fas fa-map-marker-alt"></i></div>
+                            <div class="info-label">Adresse</div>
+                            <div class="info-value">Kinshasa, RDC</div>
+                        </li>
+                        <li class="info-item">
+                            <div class="info-icon"><i class="fas fa-briefcase"></i></div>
+                            <div class="info-label">Profession</div>
+                            <div class="info-value">Étudiant</div>
+                        </li>
+                        <li class="info-item">
+                            <div class="info-icon"><i class="fas fa-venus-mars"></i></div>
+                            <div class="info-label">Genre</div>
+                            <div class="info-value">Masculin</div>
+                        </li>
+                        <li class="info-item">
+                            <div class="info-icon"><i class="fas fa-birthday-cake"></i></div>
+                            <div class="info-label">Date de naissance</div>
+                            <div class="info-value">07.06.2000</div>
+                        </li>
+                        <li class="info-item">
+                            <div class="info-icon"><i class="fas fa-flag"></i></div>
+                            <div class="info-label">Nationalité</div>
+                            <div class="info-value">Congolaise</div>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Détails du club -->
+                <div class="info-section">
+                    <div class="section-title"><i class="fas fa-dumbbell"></i> Détails du Club</div>
+                    <ul class="info-list">
+                        <li class="info-item">
+                            <div class="info-icon"><i class="fas fa-medal"></i></div>
+                            <div class="info-label">Grade</div>
+                            <div class="info-value">Ceinture bleue</div>
+                        </li>
+                        <li class="info-item">
+                            <div class="info-icon"><i class="fas fa-calendar-plus"></i></div>
+                            <div class="info-label">Date d'inscription</div>
+                            <div class="info-value">01/03/2023</div>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Tuteur -->
+                <div class="info-section">
+                    <div class="section-title"><i class="fas fa-user-tie"></i> Tuteur</div>
+                    <ul class="info-list">
+                        <li class="info-item">
+                            <div class="info-icon"><i class="fas fa-user-friends"></i></div>
+                            <div class="info-label">Nom complet</div>
+                            <div class="info-value">Jane Doe</div>
+                        </li>
+                        <li class="info-item">
+                            <div class="info-icon"><i class="fas fa-phone-alt"></i></div>
+                            <div class="info-label">Téléphone</div>
+                            <div class="info-value">+243 812 987 654</div>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Expériences et Objectifs -->
+                <div class="info-section">
+                    <div class="section-title"><i class="fas fa-bullseye"></i>Expériences et Objectifs</div>
+                    <ul class="info-list">
+                        <li class="info-item">
+                            <div class="info-icon"><i class="fas fa-history"></i></div>
+                            <div class="info-label">Expériences</div>
+                            <div class="info-value">Débutant en arts martiaux</div>
+                        </li>
+                        <li class="info-item">
+                            <div class="info-icon"><i class="fas fa-bullseye"></i></div>
+                            <div class="info-label">Objectifs</div>
+                            <div class="info-value">Améliorer la condition physique et apprendre la self-défense</div>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Santé -->
+                <div class="info-section">
+                    <div class="section-title"><i class="fas fa-heartbeat"></i> Informations Santé</div>
+                    <ul class="info-list">
+                        <li class="info-item">
+                            <div class="info-icon"><i class="fas fa-tint"></i></div>
+                            <div class="info-label">Groupe Sanguin</div>
+                            <div class="info-value">A+</div>
+                        </li>
+                        <li class="info-item">
+                            <div class="info-icon"><i class="fas fa-exclamation-triangle"></i></div>
+                            <div class="info-label">Allergies</div>
+                            <div class="info-value empty">Aucune</div>
+                        </li>
+                        <li class="info-item">
+                            <div class="info-icon"><i class="fas fa-pills"></i></div>
+                            <div class="info-label">Médicaments</div>
+                            <div class="info-value empty">Aucun</div>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Autorisations -->
+                <div class="info-section">
+                    <div class="section-title"><i class="fas fa-file-signature"></i> Autorisations</div>
+                    <ul class="info-list">
+                        <li class="info-item">
+                            <div class="info-icon"><i class="fas fa-user-check"></i></div>
+                            <div class="info-label">Autorisation parentale</div>
+                            <div class="info-value status-yes">Oui</div>
+                        </li>
+                        <li class="info-item">
+                            <div class="info-icon"><i class="fas fa-trophy"></i></div>
+                            <div class="info-label">Participation compétitions</div>
+                            <div class="info-value status-no">Non</div>
+                        </li>
+                    </ul>
+                </div>
+                <!-- Informations -->
+                <div class="info-section">
+                    <div class="section-title"><i class="fas fa-file-signature"></i>Informations du club</div>
+                    <ul class="info-list">
+                        <li class="info-item">
+                            <div class="info-icon"><i class="fas fa-user-check"></i></div>
+                            <div class="info-label"></div>
+                            <div class="info-value status-yes"></div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
