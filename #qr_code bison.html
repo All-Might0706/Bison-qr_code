@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Générateur QR Code Personnalisé - Club Anakochi</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <style>
+        body { font-family: 'Arial', sans-serif; background: #f0f2f5; display: flex; justify-content: center; align-items: flex-start; min-height: 100vh; padding: 20px; }
+        .container { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; max-width: 1400px; width: 100%; margin-top: 50px; }
+        .panel { background: #fff; padding: 30px; border-radius: 12px; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08); }
+        .header { text-align: center; margin-bottom: 25px; }
+        .logo { font-size: 32px; color: #1a1a2e; margin-bottom: 5px; }
+        .title { font-size: 24px; color: #1a1a2e; margin: 0 0 5px 0; }
+        .subtitle { font-size: 14px; color: #666; margin: 0; }
+        .form-section { display: flex; flex-direction: column; gap: 20px; }
+        .form-group { display: flex; flex-direction: column; }
+        .form-label { font-weight: bold; margin-bottom: 8px; color: #333; font-size: 15px; }
+        .form-input { padding: 12px; border: 1px solid #ddd; border-radius: 8px; font-size: 16px; transition: border-color 0.3s; }
+        .form-input:focus { border-color: #1a1a2e; outline: none; }
+        
+        .file-input-wrapper { position: relative; overflow: hidden; display: inline-block; width: 100%; }
+        .file-input { position: absolute; left: 0; top: 0; opacity: 0; cursor: pointer; height: 300%; width: 300%; }
+        .file-input-label { background: #f0f0f0; color: #333; padding: 12px 15px; border-radius: 8px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background 0.3s; border: 1px solid #ddd; }
+        .file-input-label:hover { background: #e0e0e0; }
+        
+        .color-inputs { display: flex; gap: 20px; }
+        .color-input-group { display: flex; align-items: center; gap: 10px; }
+        .color-input { width: 40px; height: 40px; border: none; padding: 0; border-radius: 50%; cursor: pointer; background: none; }
+        
+        .generate-btn { background: #1a1a2e; color: white; padding: 15px; border: none; border-radius: 8px; font-size: 18px; cursor: pointer; transition: background 0.3s, transform 0.1s; margin-top: 10px; }
+        .generate-btn:hover:not(:disabled) { background: #0f0f1d; }
+        .generate-btn:disabled { background: #ccc; cursor: not-allowed; }
+        .download-section { display: flex; gap: 15px; margin-top: 25px; }
+        .download-btn { flex: 1; padding: 12px; border: 2px solid #1a1a2e; background: white; color: #1a1a2e; border-radius: 8px; font-size: 16px; cursor: pointer; transition: all 0.3s; }
+        .download-btn:hover:not(:disabled) { background: #1a1a2e; color: white; }
+        .download-btn:disabled { border-color: #ccc; color: #ccc; background: #f9f9f9; cursor: not-allowed; }
+        
+        .preview-panel { display: flex; flex-direction: column; align-items: center; }
+        .qr-container { background: #f9f9f9; border-radius: 10px; padding: 10px; display: flex; justify-content: center; align-items: center; min-height: 340px; width: 100%; position: relative; box-sizing: border-box; }
+        #qrcode { display: flex; justify-content: center; align-items: center; }
+        #qrcode canvas { max-width: 100%; height: auto; border: 1px solid #eee; border-radius: 4px; }
+        .qr-placeholder { text-align: center; color: #bbb; }
+        .qr-placeholder i { font-size: 40px; margin-bottom: 10px; }
+        
+        .loading { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(255, 255, 255, 0.9); border-radius: 10px; display: flex; flex-direction: column; justify-content: center; align-items: center; color: #1a1a2e; font-weight: bold; opacity: 0; visibility: hidden; transition: opacity 0.3s; }
+        .loading.show { opacity: 1; visibility: visible; }
+        .spinner { border: 4px solid #f3f3f3; border-top: 4px solid #1a1a2e; border-radius: 50%; width: 40px; height: 40px; animation: spin 1s linear infinite; margin-bottom: 10px; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+        .info-card { background: #f0f8ff; border-left: 5px solid #007bff; padding: 15px; border-radius: 8px; margin-top: 25px; font-size: 14px; color: #333; }
+        .info-card h4 { margin-top: 0; color: #007bff; }
+        
+        @media (max-width: 1200px) {
+            .container { grid-template-columns: 1fr; }
+            .preview-panel { margin-top: 20px; }
+        }
+        @media (max-width: 600px) {
+            .panel { padding: 20px; }
+            .color-inputs { flex-direction: column; }
+            .download-section { flex-direction: column; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="panel">
+            <div class="header">
+                <div class="logo">
+                    <i class="fas fa-qrcode"></i>
+                </div>
+                <h1 class="title">QR Generator Pro</h1>
+                <p class="subtitle">Créez des QR codes uniques avec photo intégrée</p>
+            </div>
+
+            <div class="form-section">
+                <div class="form-group">
+                    <label class="form-label">
+                        <i class="fas fa-link"></i> Contenu du QR Code
+                    </label>
+                    <input type="text" id="qrContent" class="form-input" 
+                           placeholder="URL, texte, numéro de téléphone..." 
+                           value="https://club-anakochi.com">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">
+                        <i class="fas fa-image"></i> Photo à intégrer
+                    </label>
+                    <div class="file-input-wrapper">
+                        <input type="file" id="logoFile" class="file-input" accept="image/*">
+                        <label for="logoFile" class="file-input-label">
+                            <i class="fas fa-cloud-upload-alt"></i>
+                            <span id="fileLabel">Choisir une image</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">
+                        <i class="fas fa-paint-brush"></i> Couleurs
+                    </label>
+                    <div class="color-inputs">
+                        <div class="color-input-group">
+                            <label>Avant-plan:</label>
+                            <input type="color" id="foregroundColor" class="color-input" value="#1a1a2e">
+                        </div>
+                        <div class="color-input-group">
+                            <label>Arrière-plan:</label>
+                            <input type="color" id="backgroundColor" class="color-input" value="#ffffff">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">
+                        <i class="fas fa-expand-arrows-alt"></i> Taille du QR Code
+                    </label>
+                    <select id="qrSize" class="form-input">
+                        <option value="200">Petit (200x200)</option>
+                        <option value="300" selected>Moyen (300x300)</option>
+                        <option value="400">Grand (400x400)</option>
+                        <option value="500">Très Grand (500x500)</option>
+                    </select>
+                </div>
+
+                <button id="generateBtn" class="generate-btn">
+                    <i class="fas fa-magic"></i>
+                    Générer QR Code
+                </button>
+            </div>
+        </div>
+
+        <div class="panel preview-panel">
+            <div class="header">
+                <h2 class="title">Prévisualisation</h2>
+                <p class="subtitle">Votre QR code personnalisé apparaîtra ici</p>
+            </div>
+
+            <div class="qr-container">
+                <div id="qrcode">
+                    <div class="qr-placeholder">
+                        <i class="fas fa-qrcode"></i>
+                        <p>Votre QR code apparaîtra ici</p>
+                    </div>
+                </div>
+                <div class="loading">
+                    <div class="spinner"></div>
+                    Génération en cours...
+                </div>
+            </div>
+
+            <div class="download-section">
+                <button id="downloadPng" class="download-btn" disabled>
+                    <i class="fas fa-download"></i>
+                    Télécharger PNG
+                </button>
+            </div>
+
+            <div class="info-card">
+                <h4><i class="fas fa-info-circle"></i> Conseils d'utilisation</h4>
+                <p>
+                    • Utilisez des images avec un fond transparent (PNG) pour de meilleurs résultats<br>
+                    • La photo sera automatiquement redimensionnée et centrée<br>
+                    • Testez toujours votre QR code avant utilisation<br>
+                    • Pour l'impression, utilisez une taille d'au moins 300x300 pixels
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentQRCode = null;
+        let logoImage = null;
+
+        const qrContent = document.getElementById('qrContent');
+        const logoFile = document.getElementById('logoFile');
+        const fileLabel = document.getElementById('fileLabel');
+        const generateBtn = document.getElementById('generateBtn');
+        const downloadPngBtn = document.getElementById('downloadPng');
+        const qrcodeDiv = document.getElementById('qrcode');
+        const loading = document.querySelector('.loading');
+
+        logoFile.addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                fileLabel.textContent = file.name;
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    logoImage = new Image();
+                    logoImage.onload = function() {
+                        console.log('Image chargée:', logoImage.width + 'x' + logoImage.height);
+                    };
+                    logoImage.src = e.target.result;
+                };
+                reader.readAsDataURL(file);
+            } else {
+                fileLabel.textContent = 'Choisir une image';
+                logoImage = null;
+            }
+        });
+
+        generateBtn.addEventListener('click', generateQRCode);
+
+        function generateQRCode() {
+            const content = qrContent.value.trim();
+            if (!content) {
+                qrcodeDiv.innerHTML = '<div class="qr-placeholder"><i class="fas fa-qrcode"></i><p>Votre QR code apparaîtra ici</p></div>';
+                downloadPngBtn.disabled = true;
+                return;
+            }
+
+            loading.classList.add('show');
+            generateBtn.disabled = true;
+            qrcodeDiv.innerHTML = '';
+
+            const size = parseInt(document.getElementById('qrSize').value);
+            const foregroundColor = document.getElementById('foregroundColor').value;
+            const backgroundColor = document.getElementById('backgroundColor').value;
+
+            const canvas = document.createElement('canvas');
+            canvas.width = size;
+            canvas.height = size;
+            const ctx = canvas.getContext('2d');
+
+            const qr = qrcode(0, 'H');
+            qr.addData(content);
+            qr.make();
+
+            const moduleCount = qr.getModuleCount();
+            const margin = 4;
+            const totalSize = moduleCount + (margin * 2);
+            const cellSize = size / totalSize;
+
+            ctx.fillStyle = backgroundColor;
+            ctx.fillRect(0, 0, size, size);
+
+            ctx.fillStyle = foregroundColor;
+            for (let row = 0; row < moduleCount; row++) {
+                for (let col = 0; col < moduleCount; col++) {
+                    if (qr.isDark(row, col)) {
+                        const x = (col + margin) * cellSize;
+                        const y = (row + margin) * cellSize;
+                        ctx.fillRect(x, y, cellSize, cellSize);
+                    }
+                }
+            }
+
+            if (logoImage && logoImage.complete) {
+                addLogoToQR(canvas, ctx, logoImage);
+            }
+
+            qrcodeDiv.appendChild(canvas);
+            currentQRCode = canvas;
+            downloadPngBtn.disabled = false;
+            loading.classList.remove('show');
+            generateBtn.disabled = false;
+        }
+
+        function addLogoToQR(canvas, ctx, logo) {
+            const logoSize = Math.min(canvas.width * 0.35, canvas.height * 0.35); // 35% au lieu de 25%
+            const logoX = (canvas.width - logoSize) / 2;
+            const logoY = (canvas.height - logoSize) / 2;
+            const padding = 15; // Padding augmenté aussi
+
+            ctx.save();
+
+            // Pas d'arrière-plan blanc - le logo est directement sur le QR code
+            ctx.drawImage(logo, logoX, logoY, logoSize, logoSize);
+            
+            ctx.restore();
+        }
+
+        downloadPngBtn.addEventListener('click', function() {
+            if (!currentQRCode) return;
+            
+            const link = document.createElement('a');
+            link.download = 'qr-code-anakochi.png';
+            link.href = currentQRCode.toDataURL('image/png');
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        });
+
+        qrContent.addEventListener('input', function() {
+            if (this.value.trim()) {
+                clearTimeout(this.generateTimeout);
+                this.generateTimeout = setTimeout(generateQRCode, 1000);
+            }
+        });
+
+        const controlsToRegenerate = [
+            document.getElementById('foregroundColor'),
+            document.getElementById('backgroundColor'),
+            document.getElementById('qrSize')
+        ];
+
+        controlsToRegenerate.forEach(control => {
+            control.addEventListener('change', function() {
+                if (qrContent.value.trim()) {
+                    if (control.type === 'color') {
+                        clearTimeout(control.generateTimeout);
+                        control.generateTimeout = setTimeout(generateQRCode, 300);
+                    } else {
+                        generateQRCode();
+                    }
+                }
+            });
+        });
+
+        window.addEventListener('load', function() {
+            setTimeout(() => {
+                if (qrContent.value.trim()) {
+                    generateQRCode();
+                }
+            }, 500);
+        });
+        
+        function adaptiveResize() {
+            const container = document.querySelector('.container');
+            if (window.innerWidth < 1200) {
+                container.style.gridTemplateColumns = '1fr';
+            } else {
+                container.style.gridTemplateColumns = '1fr 1fr';
+            }
+        }
+
+        window.addEventListener('resize', adaptiveResize);
+        adaptiveResize();
+    </script>
+</body>
+</html>
