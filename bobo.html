@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Fiche de Renseignement - Club Anakochi</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="bison.css" />
+</head>
+
+<body>
+    <div class="main-container">
+        <!-- En-tête avec logo et nom de l'école -->
+        <div class="header-banner">
+            <div class="logo-container">
+                <div class="logo">
+                    <img src="Logo Noir.png" alt="Logo" width=80 height=80>
+                </div>
+            </div>
+            <div class="header-text">
+                <h1 class="school-name">CLUB ANAKOCHI</h1>
+                <p class="school-subtitle">École de Jiu-Jitsu, Self-Défense
+                    et Arts Martiaux Associés • École Bison Ouragan</p>
+            </div>
+            <div class="header-buttons">
+                <button class="header-btn" id="toggleNotifications">
+                    <i class="fas fa-bell"></i>
+                </button>
+                <button class="header-btn" id="toggleCotisations">
+                    <i class="fas fa-money-bill-wave"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Titre du document -->
+        <div class="document-title">
+            <i class="fas fa-file-alt"></i> Fiche de Renseignement Membre
+        </div>
+
+        <div class="content-container">
+            <!-- En-tête membre -->
+            <div class="member-header">
+                <div class="photo-container">
+                    <div class="photo-frame" id="memberPhoto">
+                        <img src="Logo Noir.png" alt="Photo membre" />
+                    </div>
+                </div>
+                <div class="member-info">
+                    <h2 class="member-name">BOBO Van Dame</h2>
+                    <div class="status-badges">
+                        <span class="badge badge-success"><i class="fas fa-check-circle"></i>
+                            Actif</span>
+                        <span class="badge badge-primary"><i class="fas fa-layer-group"></i> Grade</span>
+                        <span class="badge badge-info"><i class="fas fa-calendar"></i> 2025</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="sections-grid">
+                <!-- Informations personnelles -->
+                <div class="info-section">
+                    <div class="section-title"><i class="fas fa-user"></i>
+                        Informations Personnelles</div>
+                    <ul class="info-list">
+                        <li class="info-item">
+                            <div class="info-icon"><i class="fas fa-id-badge"></i></div>
+                            <div class="info-label">Matricule</div>
+                            <div class="info-value">M1234</div>
+                        </li>
+                        <!-- <li class="info-item">
+                            <div class="info-icon"><i class="fas fa-envelope"></i></div>
+                            <div class="info-label">Email</div>
+                            <div class="info-value">john.doe@example.com</div>
+                        </li> -->
+                        <li class="info-item">
+                            <div class="info-icon"><i class="fas fa-phone"></i></div>
+                            <div class="info-label">Téléphone</div>
+                            <div class="info-value">+242 Inconnu</div>
+                        </li>
+                        <li class="info-item">
+                            <div class="info-icon"><i class="fas fa-map-marker-alt"></i></div>
+                            <div class="info-label">Adresse</div>
+                            <div class="info-value">Makabandilou, Brazzaville</div>
+                        </li>
+                        <li class="info-item">
+                            <div class="info-icon"><i class="fas fa-briefcase"></i></div>
+                            <div class="info-label">Profession</div>
+                            <div class="info-value">Maçon</div>
+                        </li>
+                        <li class="info-item">
+                            <div class="info-icon"><i class="fas fa-venus-mars"></i></div>
+                            <div class="info-label">Genre</div>
+                            <div class="info-value">Masculin</div>
+                        </li>
+                        <li class="info-item">
+                            <div class="info-icon"><i class="fas fa-birthday-cake"></i></div>
+                            <div class="info-label">Date de naissance</div>
+                            <div class="info-value">Inconnu</div>
+                        </li>
+                        <li class="info-item">
+                            <div class="info-icon"><i class="fas fa-flag"></i></div>
+                            <div class="info-label">Nationalité</div>
+                            <div class="info-value">Congolaise</div>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Détails du club -->
+                <div class="info-section">
+                    <div class="section-title"><i class="fas fa-dumbbell"></i> Détails du
+                        Club</div>
+                    <ul class="info-list">
+                        <li class="info-item">
+                            <div class="info-icon"><i class="fas fa-medal"></i></div>
+                            <div class="info-label">Grade</div>
+                            <div class="info-value">Ceinture Noire 3 Dan</div>
+                        </li>
+                        <li class="info-item">
+                            <div class="info-icon"><i class="fas fa-calendar-plus"></i></div>
+                            <div class="info-label">Date d'inscription</div>
+                            <div class="info-value">Inconnu</div>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Tuteur -->
+                <div class="info-section">
+                    <div class="section-title"><i class="fas fa-user-tie"></i> Tuteur</div>
+                    <ul class="info-list">
+                        <li class="info-item">
+                            <div class="info-icon"><i class="fas fa-user-friends"></i></div>
+                            <div class="info-label">Nom complet</div>
+                            <div class="info-value">Inconnu</div>
+                        </li>
+                        <li class="info-item">
+                            <div class="info-icon"><i class="fas fa-phone-alt"></i></div>
+                            <div class="info-label">Téléphone</div>
+                            <div class="info-value">Inconnu</div>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Expériences et Objectifs -->
+                <div class="info-section">
+                    <div class="section-title"><i class="fas fa-bullseye"></i>Expériences et
+                        Objectifs</div>
+                    <ul class="info-list">
+                        <li class="info-item">
+                            <div class="info-icon"><i class="fas fa-history"></i></div>
+                            <div class="info-label">Expériences</div>
+                            <div class="info-value">Débutant en arts
+                                martiaux</div>
+                        </li>
+                        <li class="info-item">
+                            <div class="info-icon"><i class="fas fa-bullseye"></i></div>
+                            <div class="info-label">Objectifs</div>
+                            <div class="info-value">Améliorer la condition
+                                physique et apprendre la self-défense</div>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Santé -->
+                <div class="info-section">
+                    <div class="section-title"><i class="fas fa-heartbeat"></i> Informations
+                        Santé</div>
+                    <ul class="info-list">
+                        <li class="info-item">
+                            <div class="info-icon"><i class="fas fa-tint"></i></div>
+                            <div class="info-label">Groupe Sanguin</div>
+                            <div class="info-value">Inconnu</div>
+                        </li>
+                        <li class="info-item">
+                            <div class="info-icon"><i class="fas fa-exclamation-triangle"></i></div>
+                            <div class="info-label">Allergies</div>
+                            <div class="info-value empty">Aucune</div>
+                        </li>
+                        <li class="info-item">
+                            <div class="info-icon"><i class="fas fa-pills"></i></div>
+                            <div class="info-label">Médicaments</div>
+                            <div class="info-value empty">Aucun</div>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Autorisations -->
+                <div class="info-section">
+                    <div class="section-title"><i class="fas fa-file-signature"></i>
+                        Autorisations</div>
+                    <ul class="info-list">
+                        <li class="info-item">
+                            <div class="info-icon"><i class="fas fa-user-check"></i></div>
+                            <div class="info-label">Autorisation
+                                parentale</div>
+                            <div class="info-value status-yes">Oui</div>
+                        </li>
+                        <li class="info-item">
+                            <div class="info-icon"><i class="fas fa-trophy"></i></div>
+                            <div class="info-label">Participation
+                                compétitions</div>
+                            <div class="info-value status-no">Non</div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Menu contextuel de la photo -->
+    <div class="context-menu photo-menu" id="photoMenu">
+        <div class="menu-header">
+            <h3><i class="fas fa-user"></i> Photo du Membre</h3>
+            <button class="close-menu" data-menu="photoMenu">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="menu-content">
+            <div class="photo-display">
+                <div class="photo-large">
+                    <img src="Logo Noir.png" alt="Photo membre en grand" />
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Menu contextuel des notifications -->
+    <div class="context-menu" id="notificationsMenu">
+        <div class="menu-header">
+            <h3><i class="fas fa-bell"></i> Notifications</h3>
+            <button class="close-menu" data-menu="notificationsMenu">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="menu-content">
+            <div class="notifications-container">
+                <div class="notification-item">
+                    <div class="notification-header" onclick="toggleNotification(this)">
+                        <i class="fas fa-calendar-check"></i>
+                        <span>Prochain cours</span>
+                        <i class="fas fa-chevron-down toggle-icon"></i>
+                    </div>
+                    <div class="notification-content">
+                        <p><strong>Date:</strong> Lundi 20 octobre 2025</p>
+                        <p><strong>Heure:</strong> 18h00 - 19h30</p>
+                        <p><strong>Lieu:</strong> Dojo principal</p>
+                    </div>
+                </div>
+
+                <div class="notification-item">
+                    <div class="notification-header" onclick="toggleNotification(this)">
+                        <i class="fas fa-exclamation-circle"></i>
+                        <span>Cotisation en attente</span>
+                        <i class="fas fa-chevron-down toggle-icon"></i>
+                    </div>
+                    <div class="notification-content">
+                        <p><strong>Montant:</strong> 50 000 CDF</p>
+                        <p><strong>Échéance:</strong> 31 octobre 2025</p>
+                        <p><strong>Statut:</strong> <span class="status-no">Non payé</span></p>
+                    </div>
+                </div>
+
+                <div class="notification-item">
+                    <div class="notification-header" onclick="toggleNotification(this)">
+                        <i class="fas fa-trophy"></i>
+                        <span>Compétition à venir</span>
+                        <i class="fas fa-chevron-down toggle-icon"></i>
+                    </div>
+                    <div class="notification-content">
+                        <p><strong>Événement:</strong> Tournoi régional</p>
+                        <p><strong>Date:</strong> 15 novembre 2025</p>
+                        <p><strong>Inscription:</strong> Avant le 5 novembre</p>
+                    </div>
+                </div>
+
+                <div class="notification-item">
+                    <div class="notification-header" onclick="toggleNotification(this)">
+                        <i class="fas fa-user-graduate"></i>
+                        <span>Passage de grade</span>
+                        <i class="fas fa-chevron-down toggle-icon"></i>
+                    </div>
+                    <div class="notification-content">
+                        <p><strong>Prochain examen:</strong> Décembre 2025</p>
+                        <p><strong>Grade visé:</strong> Ceinture violette</p>
+                        <p><strong>Conditions:</strong> 6 mois de pratique minimum</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Menu contextuel des cotisations -->
+    <div class="context-menu" id="cotisationsMenu">
+        <div class="menu-header">
+            <h3><i class="fas fa-money-bill-wave"></i> Cotisations</h3>
+            <button class="close-menu" data-menu="cotisationsMenu">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="menu-content">
+            <div class="cotisation-legend">
+                <span><i class="fas fa-circle" style="color: #28a745;"></i><b> Payé</b></span>
+                <span><i class="fas fa-circle" style="color: #dc3545;"></i><b> Non payé</b></span>
+                <span><i class="fas fa-circle" style="color: #6c757d;"></i><b> Ignoré</b></span>
+                <span><i class="fas fa-circle" style="color: #8a2be2;"></i><b> Dernier dimanche (non payé)</b></span>
+                <p><strong>Dimanches: 200 frs</strong></p>
+                <p><strong>Dernier dimanche du mois: 1000 frs</strong></p>
+            </div>
+
+            <div class="cotisation-grid">
+                <div class="month-section">
+                    <div class="month-title">
+                        <div class="day-item paid">
+                            <span class="day-number">Total payé: <b>0</b> Franc CFA</span>
+                            <i class="fas fa-check-circle"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Juillet -->
+                <div class="month-section">
+                    <h4 class="month-title">Juillet 2025</h4>
+                    <div class="days-grid">
+                        <div class="day-item unpaid" data-date="06/07/2025">
+                            <span class="day-number">06</span>
+                            <i class="fas fa-times-circle"></i>
+                        </div>
+                        <div class="day-item unpaid" data-date="13/07/2025">
+                            <span class="day-number">13</span>
+                            <i class="fas fa-times-circle"></i>
+                        </div>
+                        <div class="day-item unpaid" data-date="20/07/2025">
+                            <span class="day-number">20</span>
+                            <i class="fas fa-times-circle"></i>
+                        </div>
+                        <div class="day-item last-paid" data-date="27/07/2025">
+                            <span class="day-number">27</span>
+                            <i class="fas fa-flag-checkered"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Août -->
+                <div class="month-section">
+                    <h4 class="month-title">Août 2025</h4>
+                    <div class="days-grid">
+                        <div class="day-item unpaid" data-date="03/08/2025">
+                            <span class="day-number">03</span>
+                            <i class="fas fa-times-circle"></i>
+                        </div>
+                        <div class="day-item unpaid" data-date="10/08/2025">
+                            <span class="day-number">10</span>
+                            <i class="fas fa-times-circle"></i>
+                        </div>
+                        <div class="day-item unpaid" data-date="17/08/2025">
+                            <span class="day-number">17</span>
+                            <i class="fas fa-times-circle"></i>
+                        </div>
+                        <div class="day-item unpaid" data-date="24/08/2025">
+                            <span class="day-number">24</span>
+                            <i class="fas fa-times-circle"></i>
+                        </div>
+                        <div class="day-item last-paid" data-date="31/08/2025">
+                            <span class="day-number">31</span>
+                            <i class="fas fa-flag-checkered"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Septembre -->
+                <div class="month-section">
+                    <h4 class="month-title">Septembre 2025</h4>
+                    <div class="days-grid">
+                        <div class="day-item unpaid" data-date="07/09/2025">
+                            <span class="day-number">07</span>
+                            <i class="fas fa-times-circle"></i>
+                        </div>
+                        <div class="day-item unpaid" data-date="14/09/2025">
+                            <span class="day-number">14</span>
+                            <i class="fas fa-times-circle"></i>
+                        </div>
+                        <div class="day-item unpaid" data-date="21/09/2025">
+                            <span class="day-number">21</span>
+                            <i class="fas fa-times-circle"></i>
+                        </div>
+                        <div class="day-item last-paid" data-date="28/09/2025">
+                            <span class="day-number">28</span>
+                            <i class="fas fa-flag-checkered"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Octobre -->
+                <div class="month-section">
+                    <h4 class="month-title">Octobre 2025</h4>
+                    <div class="days-grid">
+                        <div class="day-item unpaid" data-date="05/10/2025">
+                            <span class="day-number">05</span>
+                            <i class="fas fa-times-circle"></i>
+                        </div>
+                        <div class="day-item unpaid" data-date="12/10/2025">
+                            <span class="day-number">12</span>
+                            <i class="fas fa-times-circle"></i>
+                        </div>
+                        <div class="day-item unpaid" data-date="19/10/2025">
+                            <span class="day-number">19</span>
+                            <i class="fas fa-times-circle"></i>
+                        </div>
+                        <div class="day-item last-paid" data-date="26/10/2025">
+                            <span class="day-number">26</span>
+                            <i class="fas fa-flag-checkered"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Novembre -->
+                <div class="month-section">
+                    <h4 class="month-title">Novembre 2025</h4>
+                    <div class="days-grid">
+                        <div class="day-item unpaid" data-date="02/11/2025">
+                            <span class="day-number">02</span>
+                            <i class="fas fa-times-circle"></i>
+                        </div>
+                        <div class="day-item unpaid" data-date="09/11/2025">
+                            <span class="day-number">09</span>
+                            <i class="fas fa-times-circle"></i>
+                        </div>
+                        <div class="day-item unpaid" data-date="16/11/2025">
+                            <span class="day-number">16</span>
+                            <i class="fas fa-times-circle"></i>
+                        </div>
+                        <div class="day-item unpaid" data-date="23/11/2025">
+                            <span class="day-number">23</span>
+                            <i class="fas fa-times-circle"></i>
+                        </div>
+                        <div class="day-item last-paid" data-date="30/11/2025">
+                            <span class="day-number">30</span>
+                            <i class="fas fa-flag-checkered"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Décembre -->
+                <div class="month-section">
+                    <h4 class="month-title">Décembre 2025</h4>
+                    <div class="days-grid">
+                        <div class="day-item unpaid" data-date="07/12/2025">
+                            <span class="day-number">07</span>
+                            <i class="fas fa-times-circle"></i>
+                        </div>
+                        <div class="day-item unpaid" data-date="14/12/2025">
+                            <span class="day-number">14</span>
+                            <i class="fas fa-times-circle"></i>
+                        </div>
+                        <div class="day-item unpaid" data-date="21/12/2025">
+                            <span class="day-number">21</span>
+                            <i class="fas fa-times-circle"></i>
+                        </div>
+                        <div class="day-item last-paid" data-date="28/12/2025">
+                            <span class="day-number">28</span>
+                            <i class="fas fa-flag-checkered"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Overlay pour fermer les menus -->
+    <div class="menu-overlay" id="menuOverlay"></div>
+
+    <!-- Boutons de navigation haut/bas -->
+    <div class="nav-buttons">
+        <button class="nav-btn" id="scrollToTop" title="Aller en haut">
+            <i class="fas fa-arrow-up"></i>
+        </button>
+        <button class="nav-btn" id="scrollToBottom" title="Aller en bas">
+            <i class="fas fa-arrow-down"></i>
+        </button>
+    </div>
+    <script src="bison.js"></script>
+</body>
+
+</html>
