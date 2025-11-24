@@ -1,0 +1,755 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Club Anakochi - École de Jiu-Jitsu et Arts Martiaux</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-gradient: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            --accent-gradient: linear-gradient(135deg, #ff6b35 0%, #f7931e 100%);
+            --secondary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --gold-gradient: linear-gradient(135deg, #ffd700 0%, #ffb347 100%);
+            --success-gradient: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+            --dark-overlay: rgba(26, 26, 46, 0.95);
+            --light-overlay: rgba(255, 255, 255, 0.95);
+            --text-light: #ffffff;
+            --text-dark: #1a1a2e;
+            --text-gray: #6c757d;
+            --border-light: rgba(255, 255, 255, 0.1);
+            --shadow-heavy: 0 20px 60px rgba(0, 0, 0, 0.3);
+            --shadow-medium: 0 10px 30px rgba(0, 0, 0, 0.2);
+            --shadow-light: 0 5px 15px rgba(0, 0, 0, 0.1);
+            --border-radius: 20px;
+            --transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            --font-primary: 'Segoe UI', 'Roboto', sans-serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-primary);
+            line-height: 1.6;
+            color: var(--text-light);
+            background: var(--primary-gradient);
+            overflow-x: hidden;
+        }
+
+        /* Navigation */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            background: var(--dark-overlay);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border-light);
+            transition: var(--transition);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 80px;
+        }
+
+        .logo-nav {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            color: var(--text-light);
+            font-weight: 700;
+            font-size: 1.5rem;
+            letter-spacing: 1px;
+            transition: var(--transition);
+        }
+
+        .logo-nav:hover {
+            transform: translateY(-2px);
+        }
+
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--accent-gradient);
+            border-radius: 50%;
+            margin-right: 10px;
+            font-size: 1.2rem;
+        }
+
+        .search-container {
+            max-width: 600px;
+            margin: 0 auto 40px;
+            position: relative;
+            animation: fadeInUp 0.8s ease-out 0.5s both;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 15px 50px 15px 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid var(--border-light);
+            border-radius: 50px;
+            color: var(--text-light);
+            font-size: 1rem;
+            outline: none;
+            transition: var(--transition);
+            backdrop-filter: blur(10px);
+        }
+
+        .search-input::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .search-input:focus {
+            background: rgba(255, 255, 255, 0.15);
+            border-color: rgba(255, 107, 53, 0.6);
+            box-shadow: 0 0 20px rgba(255, 107, 53, 0.3);
+        }
+
+        .search-icon {
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 1.2rem;
+            pointer-events: none;
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+            padding: 120px 20px 80px;
+            background: var(--primary-gradient);
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="%23ff6b35" fill-opacity="0.1" d="M0,160L48,144C96,128,192,96,288,96C384,96,480,128,576,138.7C672,149,768,139,864,128C960,117,1056,107,1152,112C1248,117,1344,139,1392,149.3L1440,160L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path></svg>') bottom/cover no-repeat;
+            z-index: 0;
+        }
+
+        .hero-content {
+            max-width: 1000px;
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-title {
+            font-size: 4rem;
+            font-weight: 800;
+            margin-bottom: 10px;
+            background: var(--gold-gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            line-height: 1.1;
+            animation: fadeInDown 0.8s ease-out;
+        }
+
+        .hero-subtitle {
+            font-size: 1.8rem;
+            font-weight: 600;
+            margin-bottom: 25px;
+            color: var(--text-light);
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+            animation: fadeInUp 0.8s ease-out 0.2s both;
+        }
+
+        .hero-description {
+            font-size: 1.2rem;
+            margin-bottom: 50px;
+            color: rgba(255, 255, 255, 0.9);
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+            line-height: 1.8;
+            animation: fadeInUp 0.8s ease-out 0.4s both;
+        }
+
+        /* Section Maîtres */
+        .masters-section {
+            margin-top: 60px;
+        }
+
+        .section-title {
+            font-size: 2.2rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+            background: var(--gold-gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-align: center;
+            animation: fadeInUp 0.8s ease-out 0.6s both;
+        }
+
+        .section-subtitle {
+            font-size: 1rem;
+            color: rgba(255, 255, 255, 0.7);
+            text-align: center;
+            margin-bottom: 40px;
+            animation: fadeInUp 0.8s ease-out 0.7s both;
+        }
+
+        .masters-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            max-width: 1100px;
+            margin: 0 auto;
+            animation: fadeInUp 0.8s ease-out 0.8s both;
+        }
+
+        .master-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--border-light);
+            border-radius: var(--border-radius);
+            padding: 10px 15px;
+            text-align: center;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .master-card.hidden {
+            display: none;
+        }
+
+        .master-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 107, 53, 0.1), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .master-card:hover::before {
+            left: 100%;
+        }
+
+        .master-card:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--shadow-heavy);
+            border-color: rgba(255, 107, 53, 0.5);
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .master-icon {
+            width: 70px;
+            height: 70px;
+            margin: 0 auto 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--accent-gradient);
+            border-radius: 50%;
+            font-size: 1.8rem;
+            color: white;
+            transition: var(--transition);
+            box-shadow: var(--shadow-medium);
+        }
+
+        .master-card:hover .master-icon {
+            transform: scale(1.1) rotate(10deg);
+        }
+
+        .master-name {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--text-light);
+            margin-bottom: 15px;
+            transition: var(--transition);
+        }
+
+        .master-card:hover .master-name {
+            background: var(--gold-gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .master-title {
+            font-size: 0.95rem;
+            color: rgba(255, 255, 255, 0.6);
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 500;
+            display: none;
+        }
+
+        .master-link {
+            display: inline-block;
+            padding: 12px 30px;
+            background: var(--accent-gradient);
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            letter-spacing: 0.5px;
+            transition: var(--transition);
+            box-shadow: var(--shadow-light);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .master-link::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: var(--secondary-gradient);
+            transition: left 0.3s ease;
+        }
+
+        .master-link:hover::before {
+            left: 0;
+        }
+
+        .master-link span {
+            position: relative;
+            z-index: 1;
+        }
+
+        .master-link:hover {
+            transform: scale(1.05);
+            box-shadow: var(--shadow-medium);
+        }
+
+        /* Animations */
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-container {
+                padding: 0 15px;
+                height: 70px;
+            }
+
+            .logo-nav {
+                font-size: 1.3rem;
+            }
+
+            .logo-icon {
+                width: 35px;
+                height: 35px;
+                font-size: 1rem;
+            }
+
+            .hero {
+                padding: 100px 15px 60px;
+            }
+
+            .hero-title {
+                font-size: 2.8rem;
+            }
+
+            .hero-subtitle {
+                font-size: 1.5rem;
+            }
+
+            .hero-description {
+                font-size: 1.1rem;
+            }
+
+            .section-title {
+                font-size: 1.8rem;
+            }
+
+            .masters-grid {
+                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+                gap: 20px;
+            }
+
+            .master-icon {
+                width: 70px;
+                height: 70px;
+                font-size: 1.8rem;
+            }
+
+            .master-name {
+                font-size: 1.2rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .nav-container {
+                height: 60px;
+            }
+
+            .logo-nav {
+                font-size: 1.1rem;
+            }
+
+            .logo-icon {
+                width: 30px;
+                height: 30px;
+                margin-right: 8px;
+            }
+
+            .hero-title {
+                font-size: 2.2rem;
+            }
+
+            .hero-subtitle {
+                font-size: 1.3rem;
+            }
+
+            .hero-description {
+                font-size: 1rem;
+            }
+
+            .masters-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .master-card {
+                padding: 8px 10px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- NAVIGATION -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <a href="#" class="logo-nav">
+                <div class="logo-icon">
+                    <i class="fas fa-fist-raised"></i>
+                </div>
+                <span>ANAKOCHI</span>
+            </a>
+        </div>
+    </nav>
+
+    <!-- HERO SECTION -->
+    <section class="hero" id="accueil">
+        <div class="hero-content">
+            <h1 class="hero-title">CLUB ANAKOCHI</h1>
+            <h2 class="hero-subtitle">École Bison Ouragan</h2>
+            <p class="hero-description">
+                Découvrez l'art du Jiu-Jitsu, de la self-défense et des arts
+                martiaux associés dans un environnement professionnel et bienveillant.
+                Développez votre force, votre discipline et votre confiance en soi.
+            </p>
+
+            <!-- SECTION MAÎTRES -->
+            <div class="masters-section">
+                <h3 class="section-title">Nos Bisons</h3>
+                <p class="section-subtitle">Découvrez le parcours de chaque bisons</p>
+
+                <!-- RECHERCHE -->
+                <div class="search-container">
+                    <input type="text" id="searchInput" class="search-input" placeholder="Rechercher un bison..."
+                        autocomplete="off">
+                    <i class="fas fa-search search-icon"></i>
+                </div>
+
+                <div class="masters-grid" id="mastersGrid">
+                    <!-- Maître Bobo -->
+                    <div class="master-card">
+                        <div class="master-icon">
+                            <i class="fas fa-user-ninja"></i>
+                        </div>
+                        <h4 class="master-name">Maître Bobo</h4>
+                        <a href="bobo.html" target="_blank" class="master-link">
+                            <span>Voir le profil</span>
+                        </a>
+                    </div>
+
+                    <!-- Maître Colombe -->
+                    <div class="master-card">
+                        <div class="master-icon">
+                            <i class="fas fa-dove"></i>
+                        </div>
+                        <h4 class="master-name">Maître Colombe</h4>
+                        <a href="ours.html" target="_blank" class="master-link">
+                            <span>Voir le profil</span>
+                        </a>
+                    </div>
+
+                    <!-- Ancien Roy -->
+                    <div class="master-card">
+                        <div class="master-icon">
+                            <i class="fas fa-crown"></i>
+                        </div>
+                        <h4 class="master-name">Ancien Roy</h4>
+                        <a href="deku.html" target="_blank" class="master-link">
+                            <span>Voir le profil</span>
+                        </a>
+                    </div>
+
+                    <!-- Ancien Saint Michel -->
+                    <div class="master-card">
+                        <div class="master-icon">
+                            <i class="fas fa-archway"></i>
+                        </div>
+                        <h4 class="master-name">Ancien Saint Michel</h4>
+                        <a href="saint_michel.html" target="_blank" class="master-link">
+                            <span>Voir le profil</span>
+                        </a>
+                    </div>
+
+                    <!-- Ancien Boulala -->
+                    <div class="master-card">
+                        <div class="master-icon">
+                            <i class="fas fa-dragon"></i>
+                        </div>
+                        <h4 class="master-name">Ancien Boulala</h4>
+                        <a href="zim.html" target="_blank" class="master-link">
+                            <span>Voir le profil</span>
+                        </a>
+                    </div>
+
+                    <!-- Ancien Forlane -->
+                    <div class="master-card">
+                        <div class="master-icon">
+                            <i class="fas fa-wind"></i>
+                        </div>
+                        <h4 class="master-name">Ancien Forlane</h4>
+                        <a href="forlane.html" target="_blank" class="master-link">
+                            <span>Voir le profil</span>
+                        </a>
+                    </div>
+
+                    <!-- Ancien Daruis -->
+                    <div class="master-card">
+                        <div class="master-icon">
+                            <i class="fas fa-hammer"></i>
+                        </div>
+                        <h4 class="master-name">Ancien Darius</h4>
+                        <a href="darius.html" target="_blank" class="master-link">
+                            <span>Voir le profil</span>
+                        </a>
+                    </div>
+
+                    <!-- Ancien Yoan -->
+                    <div class="master-card">
+                        <div class="master-icon">
+                            <i class="fas fa-fist-raised"></i>
+                        </div>
+                        <h4 class="master-name">Ancien Yoan</h4>
+                        <a href="yoan.html" target="_blank" class="master-link">
+                            <span>Voir le profil</span>
+                        </a>
+                    </div>
+
+                    <!-- Ancien Youssouf -->
+                    <div class="master-card">
+                        <div class="master-icon">
+                            <i class="fas fa-mountain"></i>
+                        </div>
+                        <h4 class="master-name">Ancien Youssouf</h4>
+                        <a href="youssouf.html" target="_blank" class="master-link">
+                            <span>Voir le profil</span>
+                        </a>
+                    </div>
+
+                    <!-- Ancien Modibo -->
+                    <div class="master-card">
+                        <div class="master-icon">
+                            <i class="fas fa-sun"></i>
+                        </div>
+                        <h4 class="master-name">Ancien Modibo</h4>
+                        <a href="modibo.html" target="_blank" class="master-link">
+                            <span>Voir le profil</span>
+                        </a>
+                    </div>
+
+                    <!-- Ancien Inko -->
+                    <div class="master-card">
+                        <div class="master-icon">
+                            <i class="fas fa-shield-alt"></i>
+                        </div>
+                        <h4 class="master-name">Ancien Inko</h4>
+                        <a href="inko.html" target="_blank" class="master-link">
+                            <span>Voir le profil</span>
+                        </a>
+                    </div>
+
+                    <!-- Ancien Michel -->
+                    <div class="master-card">
+                        <div class="master-icon">
+                            <i class="fas fa-gem"></i>
+                        </div>
+                        <h4 class="master-name">Ancien Michel</h4>
+                        <a href="michel.html" target="_blank" class="master-link">
+                            <span>Voir le profil</span>
+                        </a>
+                    </div>
+
+                    <!-- Ancien Faustin -->
+                    <div class="master-card">
+                        <div class="master-icon">
+                            <i class="fas fa-tree"></i>
+                        </div>
+                        <h4 class="master-name">Ancien Faustin</h4>
+                        <a href="faustin.html" target="_blank" class="master-link">
+                            <span>Voir le profil</span>
+                        </a>
+                    </div>
+
+                    <!-- Maitre Jesper -->
+                    <div class="master-card">
+                        <div class="master-icon">
+                            <i class="fas fa-compass"></i>
+                        </div>
+                        <h4 class="master-name">Maitre Jesper</h4>
+                        <a href="jesper.html" target="_blank" class="master-link">
+                            <span>Voir le profil</span>
+                        </a>
+                    </div>
+
+                    <!-- Conseil Professionnel -->
+                    <div class="master-card">
+                        <div class="master-icon">
+                            <i class="fas fa-user-tie"></i>
+                        </div>
+                        <h4 class="master-name">Conseiller Otto</h4>
+                        <a href="conseiller.html" target="_blank" class="master-link">
+                            <span>Voir le profil</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        // Animation pour la navbar au défilement
+        window.addEventListener('scroll', function () {
+            const navbar = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                navbar.style.boxShadow = '0 5px 20px rgba(0, 0, 0, 0.3)';
+            } else {
+                navbar.style.boxShadow = 'none';
+            }
+        });
+
+        // Animation au chargement des cartes
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver(function (entries) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.master-card').forEach(card => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(30px)';
+            card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(card);
+        });
+
+        // Fonctionnalité de recherche
+        const searchInput = document.getElementById('searchInput');
+        const mastersGrid = document.getElementById('mastersGrid');
+        const masterCards = document.querySelectorAll('.master-card');
+
+        searchInput.addEventListener('input', function (e) {
+            const searchTerm = e.target.value.toLowerCase().trim();
+
+            masterCards.forEach(card => {
+                const masterName = card.querySelector('.master-name').textContent.toLowerCase();
+
+                if (masterName.includes(searchTerm)) {
+                    card.classList.remove('hidden');
+                    setTimeout(() => {
+                        card.style.opacity = '1';
+                        card.style.transform = 'translateY(0)';
+                    }, 10);
+                } else {
+                    card.classList.add('hidden');
+                }
+            });
+
+            // Message si aucun résultat
+            const visibleCards = document.querySelectorAll('.master-card:not(.hidden)');
+            let noResultMsg = document.getElementById('noResultMsg');
+
+            if (visibleCards.length === 0 && searchTerm !== '') {
+                if (!noResultMsg) {
+                    noResultMsg = document.createElement('p');
+                    noResultMsg.id = 'noResultMsg';
+                    noResultMsg.style.cssText = 'text-align: center; color: rgba(255,255,255,0.6); font-size: 1.1rem; grid-column: 1/-1; padding: 40px;';
+                    noResultMsg.innerHTML = '<i class="fas fa-search" style="font-size: 2rem; display: block; margin-bottom: 10px;"></i>Aucun maître trouvé';
+                    mastersGrid.appendChild(noResultMsg);
+                }
+            } else if (noResultMsg) {
+                noResultMsg.remove();
+            }
+        });
+    </script>
+</body>
+
+</html>
