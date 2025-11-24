@@ -215,6 +215,18 @@
             font-style: italic;
         }
 
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border: 0;
+        }
+
         @keyframes fadeIn {
             from {
                 opacity: 0;
@@ -273,13 +285,15 @@
         </div>
         
         <form class="password-form" id="passwordForm">
+            <label for="passwordInput" class="sr-only">Mot de passe</label>
             <input 
                 type="password" 
                 id="passwordInput" 
                 class="password-input" 
-                placeholder="Entrez le mot de passe du jour"
+                placeholder="Entrez le mot de passe"
                 autocomplete="off"
                 required
+                aria-describedby="errorMessage"
             >
             <div class="attempts-info" id="attemptsInfo">
                 Tentatives restantes : <span id="attemptsCount">3</span>
@@ -289,7 +303,7 @@
             </button>
         </form>
         
-        <p class="hint">Le mot de passe c'est "Bison"</p>
+        <p class="hint">Le mot de passe est " ANAKOCHI "</p>
     </div>
 
     <script>
@@ -394,6 +408,9 @@
                     // Mot de passe correct - rediriger vers la page principale
                     localStorage.removeItem('loginAttempts');
                     localStorage.removeItem('blockedUntil');
+                    // Stocker la date de connexion pour vérification d'expiration
+                    localStorage.setItem('lastLoginDate', new Date().toDateString());
+                    localStorage.setItem('authenticated', 'true');
                     window.location.href = "bison.html"; // Remplacez par l'URL de votre page principale
                 } else {
                     // Mot de passe incorrect
