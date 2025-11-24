@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Club Anakochi - École de Jiu-Jitsu et Arts Martiaux</title>
+    <title>Accès sécurisé - Club Anakochi</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <style>
         :root {
@@ -12,6 +12,7 @@
             --secondary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             --gold-gradient: linear-gradient(135deg, #ffd700 0%, #ffb347 100%);
             --success-gradient: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+            --error-gradient: linear-gradient(135deg, #dc3545 0%, #e83e8c 100%);
             --dark-overlay: rgba(26, 26, 46, 0.95);
             --light-overlay: rgba(255, 255, 255, 0.95);
             --text-light: #ffffff;
@@ -32,79 +33,82 @@
             box-sizing: border-box;
         }
 
-        html {
-            scroll-behavior: smooth;
-        }
-
         body {
             font-family: var(--font-primary);
             line-height: 1.6;
             color: var(--text-light);
             background: var(--primary-gradient);
             overflow-x: hidden;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
         }
 
-        /* Navigation */
-        .navbar {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            z-index: 1000;
-            background: var(--dark-overlay);
+        .login-container {
+            background: rgba(255, 255, 255, 0.05);
             backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            border-bottom: 1px solid var(--border-light);
-            transition: var(--transition);
+            border: 1px solid var(--border-light);
+            border-radius: var(--border-radius);
+            padding: 40px;
+            max-width: 450px;
+            width: 100%;
+            text-align: center;
+            box-shadow: var(--shadow-heavy);
+            animation: fadeIn 0.8s ease-out;
         }
 
-        .nav-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            height: 80px;
-        }
-
-        .logo-nav {
+        .logo {
             display: flex;
             align-items: center;
+            justify-content: center;
+            margin-bottom: 30px;
             text-decoration: none;
             color: var(--text-light);
-            font-weight: 700;
-            font-size: 1.5rem;
-            letter-spacing: 1px;
-            transition: var(--transition);
-        }
-
-        .logo-nav:hover {
-            transform: translateY(-2px);
         }
 
         .logo-icon {
-            width: 40px;
-            height: 40px;
+            width: 50px;
+            height: 50px;
             display: flex;
             align-items: center;
             justify-content: center;
             background: var(--accent-gradient);
             border-radius: 50%;
-            margin-right: 10px;
-            font-size: 1.2rem;
+            margin-right: 15px;
+            font-size: 1.5rem;
         }
 
-        .search-container {
-            max-width: 600px;
-            margin: 0 auto 40px;
-            position: relative;
-            animation: fadeInUp 0.8s ease-out 0.5s both;
+        .logo-text {
+            font-size: 2rem;
+            font-weight: 700;
+            letter-spacing: 1px;
         }
 
-        .search-input {
+        .greeting {
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+            background: var(--gold-gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .subtitle {
+            font-size: 1rem;
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 30px;
+        }
+
+        .password-form {
+            margin-bottom: 20px;
+        }
+
+        .password-input {
             width: 100%;
-            padding: 15px 50px 15px 20px;
+            padding: 15px 20px;
             background: rgba(255, 255, 255, 0.1);
             border: 2px solid var(--border-light);
             border-radius: 50px;
@@ -112,225 +116,38 @@
             font-size: 1rem;
             outline: none;
             transition: var(--transition);
-            backdrop-filter: blur(10px);
+            margin-bottom: 20px;
+            text-align: center;
         }
 
-        .search-input::placeholder {
+        .password-input::placeholder {
             color: rgba(255, 255, 255, 0.5);
         }
 
-        .search-input:focus {
+        .password-input:focus {
             background: rgba(255, 255, 255, 0.15);
             border-color: rgba(255, 107, 53, 0.6);
             box-shadow: 0 0 20px rgba(255, 107, 53, 0.3);
         }
 
-        .search-icon {
-            position: absolute;
-            right: 20px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: rgba(255, 255, 255, 0.6);
-            font-size: 1.2rem;
-            pointer-events: none;
-        }
-
-        /* Hero Section */
-        .hero {
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-            overflow: hidden;
-            padding: 120px 20px 80px;
-            background: var(--primary-gradient);
-        }
-
-        .hero::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
+        .submit-btn {
             width: 100%;
-            height: 100%;
-            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="%23ff6b35" fill-opacity="0.1" d="M0,160L48,144C96,128,192,96,288,96C384,96,480,128,576,138.7C672,149,768,139,864,128C960,117,1056,107,1152,112C1248,117,1344,139,1392,149.3L1440,160L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path></svg>') bottom/cover no-repeat;
-            z-index: 0;
-        }
-
-        .hero-content {
-            max-width: 1000px;
-            text-align: center;
-            position: relative;
-            z-index: 1;
-        }
-
-        .hero-title {
-            font-size: 4rem;
-            font-weight: 800;
-            margin-bottom: 10px;
-            background: var(--gold-gradient);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            text-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-            line-height: 1.1;
-            animation: fadeInDown 0.8s ease-out;
-        }
-
-        .hero-subtitle {
-            font-size: 1.8rem;
-            font-weight: 600;
-            margin-bottom: 25px;
-            color: var(--text-light);
-            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
-            animation: fadeInUp 0.8s ease-out 0.2s both;
-        }
-
-        .hero-description {
-            font-size: 1.2rem;
-            margin-bottom: 50px;
-            color: rgba(255, 255, 255, 0.9);
-            max-width: 700px;
-            margin-left: auto;
-            margin-right: auto;
-            line-height: 1.8;
-            animation: fadeInUp 0.8s ease-out 0.4s both;
-        }
-
-        /* Section Maîtres */
-        .masters-section {
-            margin-top: 60px;
-        }
-
-        .section-title {
-            font-size: 2.2rem;
-            font-weight: 700;
-            margin-bottom: 15px;
-            background: var(--gold-gradient);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            text-align: center;
-            animation: fadeInUp 0.8s ease-out 0.6s both;
-        }
-
-        .section-subtitle {
-            font-size: 1rem;
-            color: rgba(255, 255, 255, 0.7);
-            text-align: center;
-            margin-bottom: 40px;
-            animation: fadeInUp 0.8s ease-out 0.7s both;
-        }
-
-        .masters-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 25px;
-            max-width: 1100px;
-            margin: 0 auto;
-            animation: fadeInUp 0.8s ease-out 0.8s both;
-        }
-
-        .master-card {
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(10px);
-            border: 1px solid var(--border-light);
-            border-radius: var(--border-radius);
-            padding: 10px 15px;
-            text-align: center;
-            transition: var(--transition);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .master-card.hidden {
-            display: none;
-        }
-
-        .master-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 107, 53, 0.1), transparent);
-            transition: left 0.5s ease;
-        }
-
-        .master-card:hover::before {
-            left: 100%;
-        }
-
-        .master-card:hover {
-            transform: translateY(-10px);
-            box-shadow: var(--shadow-heavy);
-            border-color: rgba(255, 107, 53, 0.5);
-            background: rgba(255, 255, 255, 0.08);
-        }
-
-        .master-icon {
-            width: 70px;
-            height: 70px;
-            margin: 0 auto 15px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: var(--accent-gradient);
-            border-radius: 50%;
-            font-size: 1.8rem;
-            color: white;
-            transition: var(--transition);
-            box-shadow: var(--shadow-medium);
-        }
-
-        .master-card:hover .master-icon {
-            transform: scale(1.1) rotate(10deg);
-        }
-
-        .master-name {
-            font-size: 1.2rem;
-            font-weight: 700;
-            color: var(--text-light);
-            margin-bottom: 15px;
-            transition: var(--transition);
-        }
-
-        .master-card:hover .master-name {
-            background: var(--gold-gradient);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-        }
-
-        .master-title {
-            font-size: 0.95rem;
-            color: rgba(255, 255, 255, 0.6);
-            margin-bottom: 20px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            font-weight: 500;
-            display: none;
-        }
-
-        .master-link {
-            display: inline-block;
-            padding: 12px 30px;
+            padding: 15px;
             background: var(--accent-gradient);
             color: white;
-            text-decoration: none;
+            border: none;
             border-radius: 50px;
             font-weight: 600;
-            font-size: 0.95rem;
+            font-size: 1rem;
             letter-spacing: 0.5px;
+            cursor: pointer;
             transition: var(--transition);
             box-shadow: var(--shadow-light);
             position: relative;
             overflow: hidden;
         }
 
-        .master-link::before {
+        .submit-btn::before {
             content: '';
             position: absolute;
             top: 0;
@@ -341,25 +158,67 @@
             transition: left 0.3s ease;
         }
 
-        .master-link:hover::before {
+        .submit-btn:hover::before {
             left: 0;
         }
 
-        .master-link span {
+        .submit-btn span {
             position: relative;
             z-index: 1;
         }
 
-        .master-link:hover {
-            transform: scale(1.05);
+        .submit-btn:hover {
+            transform: scale(1.02);
             box-shadow: var(--shadow-medium);
         }
 
-        /* Animations */
-        @keyframes fadeInDown {
+        .submit-btn:disabled {
+            background: rgba(255, 255, 255, 0.1);
+            color: rgba(255, 255, 255, 0.5);
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .submit-btn:disabled:hover::before {
+            left: -100%;
+        }
+
+        .attempts-info {
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.6);
+            margin-bottom: 15px;
+        }
+
+        .error-message {
+            background: var(--error-gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            font-weight: 600;
+            margin-bottom: 15px;
+            display: none;
+        }
+
+        .blocked-message {
+            background: var(--error-gradient);
+            padding: 15px;
+            border-radius: var(--border-radius);
+            margin-bottom: 20px;
+            display: none;
+        }
+
+        .hint {
+            font-size: 0.85rem;
+            color: rgba(255, 255, 255, 0.5);
+            margin-top: 20px;
+            font-style: italic;
+        }
+
+        @keyframes fadeIn {
             from {
                 opacity: 0;
-                transform: translateY(-30px);
+                transform: translateY(20px);
             }
             to {
                 opacity: 1;
@@ -367,354 +226,206 @@
             }
         }
 
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+            20%, 40%, 60%, 80% { transform: translateX(5px); }
         }
 
-        /* Responsive Design */
-        @media (max-width: 768px) {
-            .nav-container {
-                padding: 0 15px;
-                height: 70px;
-            }
-
-            .logo-nav {
-                font-size: 1.3rem;
-            }
-
-            .logo-icon {
-                width: 35px;
-                height: 35px;
-                font-size: 1rem;
-            }
-
-            .hero {
-                padding: 100px 15px 60px;
-            }
-
-            .hero-title {
-                font-size: 2.8rem;
-            }
-
-            .hero-subtitle {
-                font-size: 1.5rem;
-            }
-
-            .hero-description {
-                font-size: 1.1rem;
-            }
-
-            .section-title {
-                font-size: 1.8rem;
-            }
-
-            .masters-grid {
-                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-                gap: 20px;
-            }
-
-            .master-icon {
-                width: 70px;
-                height: 70px;
-                font-size: 1.8rem;
-            }
-
-            .master-name {
-                font-size: 1.2rem;
-            }
+        .shake {
+            animation: shake 0.5s ease-in-out;
         }
 
         @media (max-width: 480px) {
-            .nav-container {
-                height: 60px;
+            .login-container {
+                padding: 30px 20px;
             }
-
-            .logo-nav {
-                font-size: 1.1rem;
+            
+            .logo-text {
+                font-size: 1.7rem;
             }
-
-            .logo-icon {
-                width: 30px;
-                height: 30px;
-                margin-right: 8px;
-            }
-
-            .hero-title {
-                font-size: 2.2rem;
-            }
-
-            .hero-subtitle {
-                font-size: 1.3rem;
-            }
-
-            .hero-description {
-                font-size: 1rem;
-            }
-
-            .masters-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .master-card {
-                padding: 8px 10px;
+            
+            .greeting {
+                font-size: 1.5rem;
             }
         }
     </style>
 </head>
 <body>
-    <!-- NAVIGATION -->
-    <nav class="navbar" id="navbar">
-        <div class="nav-container">
-            <a href="#" class="logo-nav">
-                <div class="logo-icon">
-                    <i class="fas fa-fist-raised"></i>
-                </div>
-                <span>ANAKOCHI</span>
-            </a>
-        </div>
-    </nav>
-
-    <!-- HERO SECTION -->
-    <section class="hero" id="accueil">
-        <div class="hero-content">
-            <h1 class="hero-title">CLUB ANAKOCHI</h1>
-            <h2 class="hero-subtitle">École Bison Ouragan</h2>
-            <p class="hero-description">
-                Découvrez l'art du Jiu-Jitsu, de la self-défense et des arts
-                martiaux associés dans un environnement professionnel et bienveillant.
-                Développez votre force, votre discipline et votre confiance en soi.
-            </p>
-
-            <!-- SECTION MAÎTRES -->
-            <div class="masters-section">
-                <h3 class="section-title">Nos Bisons</h3>
-                <p class="section-subtitle">Découvrez le parcours de chaque bisons</p>
-                
-                <!-- RECHERCHE -->
-                <div class="search-container">
-                    <input 
-                        type="text" 
-                        id="searchInput" 
-                        class="search-input" 
-                        placeholder="Rechercher un bison..."
-                        autocomplete="off"
-                    >
-                    <i class="fas fa-search search-icon"></i>
-                </div>
-                
-                <div class="masters-grid" id="mastersGrid">
-                    <!-- Maître Bobo -->
-                    <div class="master-card">
-                        <div class="master-icon">
-                            <i class="fas fa-user-ninja"></i>
-                        </div>
-                        <h4 class="master-name">Bobo</h4>
-                        <a href="bobo.html" target="_blank" class="master-link">
-                            <span>Voir le profil</span>
-                        </a>
-                    </div>
-
-                    <!-- Maître Colombe -->
-                    <div class="master-card">
-                        <div class="master-icon">
-                            <i class="fas fa-dove"></i>
-                        </div>
-                        <h4 class="master-name">Colombe</h4>
-                        <a href="ours.html" target="_blank" class="master-link">
-                            <span>Voir le profil</span>
-                        </a>
-                    </div>
-
-                    <!-- Ancien Roy -->
-                    <div class="master-card">
-                        <div class="master-icon">
-                            <i class="fas fa-crown"></i>
-                        </div>
-                        <h4 class="master-name">Roy</h4>
-                        <a href="deku.html" target="_blank" class="master-link">
-                            <span>Voir le profil</span>
-                        </a>
-                    </div>
-
-                    <!-- Ancien Saint Michel -->
-                    <div class="master-card">
-                        <div class="master-icon">
-                            <i class="fas fa-cross"></i>
-                        </div>
-                        <h4 class="master-name">Saint Michel</h4>
-                        <a href="saint_michel.html" target="_blank" class="master-link">
-                            <span>Voir le profil</span>
-                        </a>
-                    </div>
-
-                    <!-- Ancien Boulala -->
-                    <div class="master-card">
-                        <div class="master-icon">
-                            <i class="fas fa-dragon"></i>
-                        </div>
-                        <h4 class="master-name">Boulala</h4>
-                        <a href="zim.html" target="_blank" class="master-link">
-                            <span>Voir le profil</span>
-                        </a>
-                    </div>
-
-                    <!-- Ancien Forlane -->
-                    <div class="master-card">
-                        <div class="master-icon">
-                            <i class="fas fa-fire"></i>
-                        </div>
-                        <h4 class="master-name">Forlane</h4>
-                        <a href="forlane.html" target="_blank" class="master-link">
-                            <span>Voir le profil</span>
-                        </a>
-                    </div>
-
-                    <!-- Ancien Daruis -->
-                    <div class="master-card">
-                        <div class="master-icon">
-                            <i class="fas fa-bolt"></i>
-                        </div>
-                        <h4 class="master-name">Darius</h4>
-                        <a href="darius.html" target="_blank" class="master-link">
-                            <span>Voir le profil</span>
-                        </a>
-                    </div>
-
-                    <!-- Ancien Yoan -->
-                    <div class="master-card">
-                        <div class="master-icon">
-                            <i class="fas fa-fist-raised"></i>
-                        </div>
-                        <h4 class="master-name">Yoan</h4>
-                        <a href="yoan.html" target="_blank" class="master-link">
-                            <span>Voir le profil</span>
-                        </a>
-                    </div>
-
-                    <!-- Ancien Youssouf -->
-                    <div class="master-card">
-                        <div class="master-icon">
-                            <i class="fas fa-hand-rock"></i>
-                        </div>
-                        <h4 class="master-name">Youssouf</h4>
-                        <a href="youssouf.html" target="_blank" class="master-link">
-                            <span>Voir le profil</span>
-                        </a>
-                    </div>
-
-                    <!-- Ancien Modibo -->
-                    <div class="master-card">
-                        <div class="master-icon">
-                            <i class="fas fa-star"></i>
-                        </div>
-                        <h4 class="master-name">Modibo</h4>
-                        <a href="modibo.html" target="_blank" class="master-link">
-                            <span>Voir le profil</span>
-                        </a>
-                    </div>
-
-                    <!-- Ancien Inko -->
-                    <div class="master-card">
-                        <div class="master-icon">
-                            <i class="fas fa-shield-alt"></i>
-                        </div>
-                        <h4 class="master-name">Inko</h4>
-                        <a href="inko.html" target="_blank" class="master-link">
-                            <span>Voir le profil</span>
-                        </a>
-                    </div>
-                    <!-- Ancien Michel -->
-                    <div class="master-card">
-                        <div class="master-icon">
-                            <i class="fas fa-shield-alt"></i>
-                        </div>
-                        <h4 class="master-name">Michel</h4>
-                        <a href="michel.html" target="_blank" class="master-link">
-                            <span>Voir le profil</span>
-                        </a>
-                    </div>
-                </div>
+    <div class="login-container">
+        <div class="logo">
+            <div class="logo-icon">
+                <i class="fas fa-fist-raised"></i>
             </div>
+            <div class="logo-text">ANAKOCHI</div>
         </div>
-    </section>
+        
+        <h2 class="greeting">Bonjour Bison</h2>
+        <p class="subtitle">Accès réservé aux membres du club</p>
+        
+        <div class="blocked-message" id="blockedMessage">
+            <i class="fas fa-lock"></i> Accès bloqué pour 15 minutes suite à 3 tentatives échouées.
+            <div id="countdown"></div>
+        </div>
+        
+        <div class="error-message" id="errorMessage">
+            Mot de passe incorrect
+        </div>
+        
+        <form class="password-form" id="passwordForm">
+            <input 
+                type="password" 
+                id="passwordInput" 
+                class="password-input" 
+                placeholder="Entrez le mot de passe du jour"
+                autocomplete="off"
+                required
+            >
+            <div class="attempts-info" id="attemptsInfo">
+                Tentatives restantes : <span id="attemptsCount">3</span>
+            </div>
+            <button type="submit" class="submit-btn" id="submitBtn">
+                <span>Accéder au contenu</span>
+            </button>
+        </form>
+        
+        <p class="hint">Le mot de passe c'est "Bison"</p>
+    </div>
 
     <script>
-        // Animation pour la navbar au défilement
-        window.addEventListener('scroll', function() {
-            const navbar = document.getElementById('navbar');
-            if (window.scrollY > 50) {
-                navbar.style.boxShadow = '0 5px 20px rgba(0, 0, 0, 0.3)';
-            } else {
-                navbar.style.boxShadow = 'none';
-            }
-        });
-
-        // Animation au chargement des cartes
-        const observerOptions = {
-            threshold: 0.1,
-            rootMargin: '0px 0px -50px 0px'
-        };
-
-        const observer = new IntersectionObserver(function(entries) {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.style.opacity = '1';
-                    entry.target.style.transform = 'translateY(0)';
-                }
-            });
-        }, observerOptions);
-
-        document.querySelectorAll('.master-card').forEach(card => {
-            card.style.opacity = '0';
-            card.style.transform = 'translateY(30px)';
-            card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
-            observer.observe(card);
-        });
-
-        // Fonctionnalité de recherche
-        const searchInput = document.getElementById('searchInput');
-        const mastersGrid = document.getElementById('mastersGrid');
-        const masterCards = document.querySelectorAll('.master-card');
-
-        searchInput.addEventListener('input', function(e) {
-            const searchTerm = e.target.value.toLowerCase().trim();
+        document.addEventListener('DOMContentLoaded', function() {
+            const passwordForm = document.getElementById('passwordForm');
+            const passwordInput = document.getElementById('passwordInput');
+            const submitBtn = document.getElementById('submitBtn');
+            const errorMessage = document.getElementById('errorMessage');
+            const blockedMessage = document.getElementById('blockedMessage');
+            const attemptsInfo = document.getElementById('attemptsInfo');
+            const attemptsCount = document.getElementById('attemptsCount');
+            const countdownElement = document.getElementById('countdown');
             
-            masterCards.forEach(card => {
-                const masterName = card.querySelector('.master-name').textContent.toLowerCase();
+            // Récupérer les données stockées ou initialiser
+            let attempts = parseInt(localStorage.getItem('loginAttempts')) || 3;
+            let blockedUntil = localStorage.getItem('blockedUntil');
+            
+            // Vérifier si l'accès est actuellement bloqué
+            if (blockedUntil) {
+                const now = new Date().getTime();
+                const blockedTime = parseInt(blockedUntil);
                 
-                if (masterName.includes(searchTerm)) {
-                    card.classList.remove('hidden');
-                    setTimeout(() => {
-                        card.style.opacity = '1';
-                        card.style.transform = 'translateY(0)';
-                    }, 10);
+                if (now < blockedTime) {
+                    // L'accès est toujours bloqué
+                    showBlockedMessage(blockedTime - now);
+                    return;
                 } else {
-                    card.classList.add('hidden');
+                    // Le blocage a expiré
+                    localStorage.removeItem('blockedUntil');
+                    localStorage.setItem('loginAttempts', 3);
+                    attempts = 3;
+                }
+            }
+            
+            // Mettre à jour l'affichage des tentatives
+            updateAttemptsDisplay();
+            
+            // Fonction pour mettre à jour l'affichage des tentatives
+            function updateAttemptsDisplay() {
+                attemptsCount.textContent = attempts;
+                
+                if (attempts === 0) {
+                    submitBtn.disabled = true;
+                    passwordInput.disabled = true;
+                    attemptsInfo.style.display = 'none';
+                } else {
+                    submitBtn.disabled = false;
+                    passwordInput.disabled = false;
+                    attemptsInfo.style.display = 'block';
+                }
+            }
+            
+            // Fonction pour afficher le message de blocage
+            function showBlockedMessage(remainingTime) {
+                passwordForm.style.display = 'none';
+                attemptsInfo.style.display = 'none';
+                blockedMessage.style.display = 'block';
+                
+                // Mettre à jour le compte à rebours
+                updateCountdown(remainingTime);
+                
+                const countdownInterval = setInterval(function() {
+                    remainingTime -= 1000;
+                    
+                    if (remainingTime <= 0) {
+                        clearInterval(countdownInterval);
+                        // Réinitialiser les tentatives
+                        localStorage.removeItem('blockedUntil');
+                        localStorage.setItem('loginAttempts', 3);
+                        // Recharger la page
+                        location.reload();
+                    } else {
+                        updateCountdown(remainingTime);
+                    }
+                }, 1000);
+            }
+            
+            // Fonction pour mettre à jour le compte à rebours
+            function updateCountdown(ms) {
+                const minutes = Math.floor(ms / 60000);
+                const seconds = Math.floor((ms % 60000) / 1000);
+                countdownElement.textContent = `Réessai dans ${minutes}:${seconds.toString().padStart(2, '0')}`;
+            }
+            
+            // Fonction pour obtenir le mot de passe du jour
+            function getTodayPassword() {
+                const today = new Date();
+                const day = today.getDate().toString().padStart(2, '0');
+                const month = (today.getMonth() + 1).toString().padStart(2, '0');
+                const year = today.getFullYear();
+                return `${day}.${month}.${year}`;
+            }
+            
+            // Gérer la soumission du formulaire
+            passwordForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const enteredPassword = passwordInput.value.trim();
+                const correctPassword = getTodayPassword();
+                
+                if (enteredPassword === correctPassword) {
+                    // Mot de passe correct - rediriger vers la page principale
+                    localStorage.removeItem('loginAttempts');
+                    localStorage.removeItem('blockedUntil');
+                    window.location.href = "bison.html"; // Remplacez par l'URL de votre page principale
+                } else {
+                    // Mot de passe incorrect
+                    attempts--;
+                    localStorage.setItem('loginAttempts', attempts);
+                    
+                    // Afficher l'erreur avec animation
+                    errorMessage.style.display = 'block';
+                    passwordForm.classList.add('shake');
+                    
+                    setTimeout(function() {
+                        passwordForm.classList.remove('shake');
+                    }, 500);
+                    
+                    // Vider le champ de saisie
+                    passwordInput.value = '';
+                    passwordInput.focus();
+                    
+                    // Mettre à jour l'affichage des tentatives
+                    updateAttemptsDisplay();
+                    
+                    // Bloquer l'accès après 3 tentatives échouées
+                    if (attempts === 0) {
+                        const blockedTime = new Date().getTime() + 15 * 60 * 1000; // 15 minutes
+                        localStorage.setItem('blockedUntil', blockedTime);
+                        showBlockedMessage(15 * 60 * 1000);
+                    }
                 }
             });
-
-            // Message si aucun résultat
-            const visibleCards = document.querySelectorAll('.master-card:not(.hidden)');
-            let noResultMsg = document.getElementById('noResultMsg');
             
-            if (visibleCards.length === 0 && searchTerm !== '') {
-                if (!noResultMsg) {
-                    noResultMsg = document.createElement('p');
-                    noResultMsg.id = 'noResultMsg';
-                    noResultMsg.style.cssText = 'text-align: center; color: rgba(255,255,255,0.6); font-size: 1.1rem; grid-column: 1/-1; padding: 40px;';
-                    noResultMsg.innerHTML = '<i class="fas fa-search" style="font-size: 2rem; display: block; margin-bottom: 10px;"></i>Aucun maître trouvé';
-                    mastersGrid.appendChild(noResultMsg);
-                }
-            } else if (noResultMsg) {
-                noResultMsg.remove();
-            }
+            // Focus sur le champ de mot de passe au chargement
+            passwordInput.focus();
         });
     </script>
 </body>
