@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="fr">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -94,6 +93,35 @@
             border-radius: 50%;
             margin-right: 10px;
             font-size: 1.2rem;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .user-name {
+            font-weight: 600;
+            color: var(--text-light);
+        }
+
+        .logout-btn {
+            padding: 8px 20px;
+            background: var(--accent-gradient);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: var(--transition);
+            box-shadow: var(--shadow-light);
+        }
+
+        .logout-btn:hover {
+            transform: scale(1.05);
+            box-shadow: var(--shadow-medium);
         }
 
         .search-container {
@@ -356,6 +384,32 @@
             box-shadow: var(--shadow-medium);
         }
 
+        /* Footer */
+        .footer {
+            background: var(--dark-overlay);
+            border-top: 1px solid var(--border-light);
+            padding: 40px 20px;
+            margin-top: 80px;
+            text-align: center;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .footer-text {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+        }
+
+        .session-info {
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 0.8rem;
+            font-style: italic;
+        }
+
         /* Animations */
         @keyframes fadeInDown {
             from {
@@ -396,6 +450,19 @@
                 width: 35px;
                 height: 35px;
                 font-size: 1rem;
+            }
+
+            .user-info {
+                gap: 10px;
+            }
+
+            .user-name {
+                font-size: 0.9rem;
+            }
+
+            .logout-btn {
+                padding: 6px 15px;
+                font-size: 0.8rem;
             }
 
             .hero {
@@ -449,6 +516,11 @@
                 margin-right: 8px;
             }
 
+            .user-info {
+                flex-direction: column;
+                gap: 5px;
+            }
+
             .hero-title {
                 font-size: 2.2rem;
             }
@@ -482,6 +554,11 @@
                 </div>
                 <span>ANAKOCHI</span>
             </a>
+            <div class="user-info">
+                <button class="logout-btn" id="logoutBtn">
+                    <i class="fas fa-sign-out-alt"></i> Déconnexion
+                </button>
+            </div>
         </div>
     </nav>
 
@@ -678,7 +755,57 @@
         </div>
     </section>
 
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="footer-content">
+            <p class="footer-text">Club Anakochi - École Bison Ouragan</p>
+            <p class="footer-text">Accès réservé aux membres autorisés</p>
+            <p class="session-info" id="sessionInfo">Session valide jusqu'à minuit</p>
+        </div>
+    </footer>
+
     <script>
+        // Vérification de sécurité - S'assurer que l'utilisateur est authentifié
+        if (!localStorage.getItem('authenticated')) {
+            window.location.href = "index.html";
+        }
+
+        // Vérifier l'expiration de la session (à minuit)
+        function checkSessionExpiry() {
+            const lastLogin = localStorage.getItem('lastLoginDate');
+            const today = new Date().toDateString();
+            
+            if (lastLogin !== today) {
+                localStorage.removeItem('authenticated');
+                localStorage.removeItem('lastLoginDate');
+                window.location.href = "index.html";
+            } else {
+                // Mettre à jour l'info de session
+                const now = new Date();
+                const midnight = new Date();
+                midnight.setHours(24, 0, 0, 0);
+                const timeLeft = midnight - now;
+                const hoursLeft = Math.floor(timeLeft / (1000 * 60 * 60));
+                const minutesLeft = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+                
+                document.getElementById('sessionInfo').textContent = 
+                    `Session valide encore ${hoursLeft}h ${minutesLeft}m`;
+            }
+        }
+
+        // Vérifier l'expiration au chargement
+        checkSessionExpiry();
+
+        // Vérifier périodiquement (toutes les minutes)
+        setInterval(checkSessionExpiry, 60000);
+
+        // Gérer la déconnexion manuelle
+        document.getElementById('logoutBtn').addEventListener('click', function() {
+            localStorage.removeItem('authenticated');
+            localStorage.removeItem('lastLoginDate');
+            window.location.href = "index.html";
+        });
+
         // Animation pour la navbar au défilement
         window.addEventListener('scroll', function () {
             const navbar = document.getElementById('navbar');
@@ -749,7 +876,9 @@
                 noResultMsg.remove();
             }
         });
+
+        // Focus sur la recherche au chargement
+        searchInput.focus();
     </script>
 </body>
-
 </html>
